@@ -1,0 +1,122 @@
+---
+title: "I claimed I shipped a GitHub App. Then I read my own source."
+deck: "There was no App. There was a token, a POST to the comments endpoint, and a word I had never checked."
+description: "How a single inaccurate word survived months on my profile, what a real GitHub App actually requires, and the reading habit that caught it."
+date: "2026-08-17"
+category: "AI Engineering"
+tags: ["Developer Tools", "GitHub", "Failure Modes", "Writing"]
+repo: "https://github.com/Sasisundar2211/VouqisVerify"
+evidence: "packages/verify/vouqis_verify/github/pr.py"
+---
+
+For several months my profile said I had shipped a GitHub App, a GitHub Action and a
+PyPI CLI. Three artifacts.
+
+Two of those were true.
+
+## What the code actually does
+
+The entire GitHub integration in Vouqis Verify is this:
+
+```python
+# vouqis_verify/github/pr.py
+url = f"https://api.github.com/repos/{repo}/issues/{pr}/comments"
+headers = {
+    "Authorization": f"Bearer {token}",
+    "Accept": "application/vnd.github+json",
+}
+```
+
+A token, read from the environment. A POST to the issue comments endpoint. Twenty-three
+lines in total.
+
+The token arrives from the workflow:
+
+```yaml
+env:
+  GITHUB_TOKEN: ${{ inputs.github-token }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  GITHUB_REPOSITORY: ${{ github.repository }}
+```
+
+That is a GitHub Action authenticating with the token the workflow already holds. It
+is a perfectly reasonable design. It is not an App.
+
+## What a GitHub App requires
+
+The gap is not cosmetic. A GitHub App is a distinct identity on the platform, and
+building one means:
+
+- **Registering the App**, which produces an App ID and a private key
+- **Signing a JWT** with that private key to authenticate as the App itself
+- **Exchanging the JWT** for an installation access token, scoped to one installation
+- **Handling installation events**, because the App is installed and uninstalled per account
+- **Receiving webhooks**, which means a server that is reachable from the internet and
+  verifies payload signatures
+
+None of that exists anywhere in my repository. No `private_key`, no JWT exchange, no
+installation ID, no webhook handler, no server.
+
+<Callout kind="warn">
+The interview question I would have failed: "walk me through your App's installation
+flow and how you verify webhook signatures." There is no honest answer available. I
+would have had to either invent one or admit the claim on the spot.
+</Callout>
+
+## How the word got there
+
+I want to be precise about this, because "I lied" is both too harsh and too convenient.
+
+Early on I sketched an architecture where a hosted App would react to pull request
+events. I wrote that down. Then I built the thing that could actually ship in the time
+I had — a CLI and a composite Action that installs it — and the description never
+caught up with the implementation.
+
+The claim was not a decision. It was a leftover.
+
+Which is worse in one specific way: a decision gets revisited. A leftover just sits
+there being read by people.
+
+## The habit that caught it
+
+I cloned my own repository into a fresh directory and read the source before reading
+the README.
+
+That ordering is the whole trick. Reading the README first installs a description in
+your head, and you then read the code looking for confirmation. Reading the source
+first means the README becomes a claim you are checking rather than a summary you are
+absorbing.
+
+Doing this once across two repositories surfaced:
+
+- a GitHub App that did not exist
+- a test suite running against vendored stub packages named after the real libraries
+- a content licence applied to source code
+- a duplicate implementation of the whole system that nothing referenced
+
+Every one of those had been sitting in public for months.
+
+<Evidence href="https://github.com/Sasisundar2211/VouqisVerify">
+VouqisVerify · packages/verify/vouqis_verify/github/pr.py
+</Evidence>
+
+## The correction
+
+The description now reads: a Python CLI on PyPI and a composite GitHub Action. Two
+artifacts, both real.
+
+The interesting thing is that the accurate version is not weaker. "Composite Action
+that installs the CLI and runs it, authenticating with the workflow token" tells a
+developer-tools engineer something specific about the trade-off I made. "GitHub App"
+told them a category, and the category was wrong.
+
+**Precision reads as competence. Category words read as marketing.** I had that
+backwards.
+
+---
+
+If you have not done this to your own repositories, the exercise takes an afternoon.
+Clone one fresh. Read the source. Then read the README and mark every sentence you
+cannot point at a line for.
+
+I would be surprised if you found nothing.

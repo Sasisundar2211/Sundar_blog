@@ -1,0 +1,61 @@
+---
+title: "Composite Action vs GitHub App: what I gave up"
+description: "A short architecture note on why Vouqis Verify ships as a composite Action rather than a hosted GitHub App, and what that costs."
+date: "2026-08-15"
+category: "Architecture Notes"
+tags: ["Developer Tools", "GitHub", "Architecture"]
+repo: "https://github.com/Sasisundar2211/VouqisVerify"
+evidence: "packages/verify/action.yml"
+---
+
+Working note. Revised in place if I change my mind.
+
+## The two options
+
+**Composite Action.** Installs the CLI, runs it, authenticates with `GITHUB_TOKEN`.
+Adoption cost is four lines of workflow YAML. Nothing is hosted.
+
+**GitHub App.** A distinct identity with its own permissions, installed per account,
+receiving webhooks at a server I run.
+
+## What the App would buy
+
+- Reacting to events without the user editing a workflow file
+- Permissions independent of whoever triggered the run
+- Its own identity on comments, rather than `github-actions[bot]`
+- Check Runs proper, with annotations attached to specific lines
+- Working across an org without per-repo setup
+
+That last one matters more than it sounds. Anything requiring per-repository YAML has
+a per-repository adoption cost, and adoption costs compound against you at exactly the
+scale where a tool starts being useful.
+
+## What it would cost
+
+A server that is always reachable. Webhook signature verification. Private key
+storage and rotation. An installation flow. Uptime obligations to anyone who installs
+it.
+
+## The decision
+
+Composite Action, for now.
+
+The reasoning is not that the App is worse. It is that the App is infrastructure in
+service of a hypothesis I have not tested. This tool has no users. Standing up a
+webhook server so that a hypothetical org can install it across a hypothetical fleet is
+building the second version of something whose first version nobody has tried.
+
+The Action gets the tool into a real pipeline today, in exchange for four lines of YAML
+from anybody who wants it.
+
+## The trigger for revisiting
+
+If someone asks to run this across more than about five repositories, the per-repo YAML
+cost starts exceeding the cost of hosting. That is the signal, not a number of stars or
+a feeling that the project should look more serious.
+
+## Related mistake
+
+For months I described the composite Action *as* a GitHub App in my own documentation.
+Worth separating the architectural question from the accuracy one: the choice was
+defensible, the description of it was simply wrong.

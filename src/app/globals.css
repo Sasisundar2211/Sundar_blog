@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: 251 250 248;
+    --raised: 245 243 238;
+    --ink: 22 22 26;
+    --muted: 88 88 96;
+    --faint: 140 138 146;
+    --rule: 226 222 214;
+    --accent: 168 68 42;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: 13 13 15;
+      --raised: 22 22 26;
+      --ink: 235 233 228;
+      --muted: 156 154 149;
+      --faint: 114 112 110;
+      --rule: 40 40 46;
+      --accent: 232 138 98;
+    }
+  }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+  body {
+    background: rgb(var(--paper));
+    color: rgb(var(--ink));
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: rgb(var(--accent) / .18); }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .prose-editorial { @apply text-[1.0625rem] leading-[1.75] text-ink; }
+  .prose-editorial > * + * { @apply mt-6; }
+  .prose-editorial h2 {
+    @apply font-serif text-[1.6rem] leading-tight mt-14 mb-1 scroll-mt-24 font-semibold tracking-[-0.01em];
+  }
+  .prose-editorial h3 {
+    @apply font-serif text-[1.25rem] leading-snug mt-10 mb-1 scroll-mt-24 font-semibold;
+  }
+  .prose-editorial p { @apply text-ink/90; }
+  .prose-editorial a {
+    @apply text-ink underline decoration-accent/45 underline-offset-[3px] decoration-[1.5px];
+    @apply hover:decoration-accent transition-colors;
+  }
+  .prose-editorial strong { @apply font-semibold text-ink; }
+  .prose-editorial ul { @apply list-disc pl-6 space-y-2 marker:text-faint; }
+  .prose-editorial ol { @apply list-decimal pl-6 space-y-2 marker:text-faint; }
+  .prose-editorial li > p { @apply mt-0; }
+  .prose-editorial blockquote {
+    @apply border-l-2 border-accent/50 pl-5 my-8 font-serif text-[1.15rem] leading-relaxed text-ink/85 italic;
+  }
+  .prose-editorial blockquote p { @apply mt-0; }
+  .prose-editorial hr { @apply my-12 border-0 border-t border-rule; }
+  .prose-editorial :not(pre) > code {
+    @apply font-mono text-[0.85em] px-[.35em] py-[.12em] rounded bg-raised text-ink border border-rule;
+  }
+  .prose-editorial figure { @apply my-8; }
+  .prose-editorial figcaption { @apply mt-3 text-sm text-muted text-center; }
+  .prose-editorial table { @apply w-full text-[.95rem] border-collapse my-8; }
+  .prose-editorial th {
+    @apply text-left font-sans font-semibold text-xs uppercase tracking-wider text-muted pb-2 border-b border-rule;
+  }
+  .prose-editorial td { @apply py-2.5 border-b border-rule/60 align-top; }
+
+  /* rehype-pretty-code */
+  .prose-editorial figure[data-rehype-pretty-code-figure] { @apply my-8; }
+  .prose-editorial pre {
+    @apply overflow-x-auto rounded-lg border border-rule py-4 text-[.85rem] leading-relaxed;
+  }
+  .prose-editorial pre > code { @apply grid font-mono; }
+  .prose-editorial pre > code > [data-line] { @apply px-4 border-l-2 border-transparent; }
+  .prose-editorial pre > code > [data-highlighted-line] {
+    @apply border-l-accent bg-accent/[.07];
+  }
+  .prose-editorial [data-rehype-pretty-code-title] {
+    @apply font-mono text-xs text-muted px-4 py-2 border border-b-0 border-rule rounded-t-lg bg-raised;
+  }
+  .prose-editorial [data-rehype-pretty-code-title] + pre { @apply rounded-t-none; }
+
+  /* Shiki dual-theme: consume the CSS variables rehype-pretty-code emits. */
+  .prose-editorial pre span { color: var(--shiki-light); }
+  .prose-editorial pre { background-color: rgb(var(--raised)); }
+  @media (prefers-color-scheme: dark) {
+    .prose-editorial pre span { color: var(--shiki-dark); }
+  }
+}
+
+.link-underline {
+  background-image: linear-gradient(rgb(var(--accent)), rgb(var(--accent)));
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size .25s ease;
+}
+.link-underline:hover { background-size: 100% 1.5px; }

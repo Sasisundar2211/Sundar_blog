@@ -1,0 +1,113 @@
+---
+title: "My CI tool could not tell 'nothing changed' from 'the diff crashed'"
+deck: "A verification tool that reports green when it could not do its job is worse than no tool at all. Here is how mine did that for several commits."
+description: "A shallow clone in GitHub Actions made an empty diff indistinguishable from a successful no-op, so the check passed on pull requests it should have flagged."
+date: "2026-08-06"
+category: "Developer Tools"
+tags: ["CI", "Failure Modes", "Git", "Verification"]
+featured: true
+repo: "https://github.com/Sasisundar2211/VouqisVerify"
+evidence: "fix(verify): distinguish diff failure from no-changes on shallow clones"
+---
+
+Vouqis Verify has one job. When a pull request touches a path I have marked as
+AI-relevant — prompts, agents, evals, model configuration — it runs the repository's
+evaluation command and posts the result back to the PR.
+
+For several commits it did that job on my machine and quietly refused to do it in CI,
+while reporting success both times.
+
+## The symptom
+
+The check passed on a pull request I had deliberately constructed to fail. I had
+changed a prompt file, the evaluation suite had a failing case waiting for it, and the
+PR comment came back clean.
+
+Locally, the same branch failed exactly as intended.
+
+## The cause
+
+`actions/checkout` clones shallow by default. It fetches a single commit with no
+history. That is a sensible default: it makes checkout dramatically faster and most
+workflows never notice.
+
+My change detection did notice, because it was built on a diff against the base ref:
+
+```python
+# core/diff.py — the shape of the original logic
+changed = run_git_diff(base_ref, head_ref)
+ai_paths = [p for p in changed if matches_ai_globs(p)]
+
+if not ai_paths:
+    return Result(status="pass", reason="no AI-relevant changes")
+```
+
+In a shallow clone the base ref is not present in the local object store. The diff does
+not raise. It returns nothing. And nothing is precisely what a successful no-op looks
+like.
+
+So two entirely different situations collapsed into one code path:
+
+| Situation | What the diff returns | What it should mean |
+|---|---|---|
+| No AI paths were touched | empty list | Pass, correctly |
+| The diff could not be computed | empty list | Unknown. Do not pass |
+
+The second row was being reported as the first.
+
+<Callout kind="warn">
+This is the failure mode that worries me most in verification tooling. A tool that
+fails loudly gets fixed on the first run. A tool that fails into green gets trusted
+for months and then quietly stops being consulted at all.
+</Callout>
+
+## The fix
+
+Two changes. The diff layer now distinguishes an empty result from an unavailable one,
+and an unavailable one is not permitted to pass:
+
+```python
+result = run_git_diff(base_ref, head_ref)
+
+if result.unavailable:
+    return Result(
+        status="error",
+        reason=f"could not compute diff against {base_ref}: {result.detail}",
+    )
+
+ai_paths = [p for p in result.paths if matches_ai_globs(p)]
+if not ai_paths:
+    return Result(status="pass", reason="no AI-relevant changes")
+```
+
+And the documented workflow now asks for the history the tool actually needs:
+
+```yaml
+- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0
+```
+
+The second change alone would have made the bug disappear. Only the first one makes
+the tool honest, because a user who forgets that line should get an error, not a
+false pass.
+
+<Evidence href="https://github.com/Sasisundar2211/VouqisVerify">
+VouqisVerify · fix(verify): distinguish diff failure from no-changes on shallow clones
+</Evidence>
+
+## What I took from it
+
+The bug was four lines. The lesson underneath it is the reason I am building this tool
+at all.
+
+Verification tooling has an asymmetry that ordinary tests do not. When a unit test
+cannot run, your pipeline goes red and somebody investigates. When a *verification*
+tool cannot gather evidence, the natural implementation returns "nothing to report",
+and nothing to report looks exactly like nothing to worry about.
+
+The design rule I now hold myself to: **the absence of evidence must be representable,
+and it must never be spelled the same way as evidence of absence.** Three states, not
+two. Pass, fail, and could-not-determine.
+
+Most of the checks I have written in the past had two.

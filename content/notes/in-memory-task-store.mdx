@@ -1,0 +1,62 @@
+---
+title: "Async dispatch with an in-memory task store, and where it breaks"
+description: "ProcureGuard uses FastAPI BackgroundTasks with process-local state. A note on when that is fine and the exact point at which it stops being fine."
+date: "2026-08-11"
+category: "Architecture Notes"
+tags: ["FastAPI", "Architecture", "Backend"]
+repo: "https://github.com/Sasisundar2211/Autonomous-Procurement-AI-System"
+evidence: "src/api/routes/detections.py"
+---
+
+Working note.
+
+## The shape
+
+Drift detection over vendor data was too slow to answer inside a request. So:
+
+```
+POST /api/run-detection      → returns a task_id immediately
+GET  /api/run-detection/{id} → returns queued | running | done | failed
+```
+
+Two of ProcureGuard's seven handlers exist solely to support this pattern. The work runs
+in a FastAPI `BackgroundTasks` callback and the task state lives in a dictionary in the
+process.
+
+## Why this is fine here
+
+Single instance. Single process. Detection runs measured in seconds, not hours. A lost
+task is re-triggerable by the user at zero cost, because the input is a CSV they still
+have. No billing, no side effects, nothing irreversible.
+
+Under those conditions a dictionary is not a shortcut. It is the correct amount of
+machinery.
+
+## Where it breaks, precisely
+
+1. **More than one replica.** Task state is process-local, so a status poll routed to a
+   different instance reports a task that never existed. This breaks the moment you
+   scale horizontally, which is also the moment you stop thinking about it.
+2. **Process restart.** Every in-flight task disappears with no record it was ever
+   started. A deploy silently drops work.
+3. **Long-running work.** BackgroundTasks runs inside the server process. Work measured
+   in minutes competes with request handling.
+4. **Anything with side effects.** Without persistence there is no retry story and no
+   idempotency key. Fine for a read-only computation. Not fine for anything that writes
+   or charges.
+
+## The honest framing
+
+The mistake is not choosing this. The mistake is describing it in language that implies
+a queue. "Async task dispatch with status polling" is technically accurate and quietly
+suggests durable infrastructure that is not there.
+
+So the project page says in-memory task store, in those words. If somebody wants to
+know whether the design would survive their traffic, the answer is on the page rather
+than in the source.
+
+## Migration when it matters
+
+Redis or Postgres for the state, a real worker process, and idempotency keys on
+dispatch. Perhaps a day of work. Worth doing on the day there is a second replica, and
+not before.

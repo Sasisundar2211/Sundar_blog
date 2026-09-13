@@ -1,0 +1,115 @@
+---
+title: "My model scored R² 0.824. The interpretability layer found the bug my metrics hid."
+deck: "Cross-validation was happy. A depth-3 surrogate tree was not. One borough had been split across two columns by a trailing space."
+description: "A whitespace fault in a categorical field created two one-hot columns for one NYC borough. No accuracy metric noticed. Feature importance did."
+date: "2026-08-13"
+category: "MLOps"
+tags: ["Interpretability", "Failure Modes", "scikit-learn", "Data Quality"]
+repo: "https://github.com/Sasisundar2211/ml-project_implementation"
+evidence: "data/model_meta.json · feature_names"
+---
+
+I built a regression pipeline over the NYC 2016 Energy Benchmarking dataset. The
+headline numbers are respectable for the problem:
+
+| Metric | Value |
+|---|---|
+| Records (raw / cleaned) | 9,535 / 9,253 |
+| Train / holdout | 6,477 / 2,776 |
+| Input features | 43 |
+| Holdout MAE | 8.6064 |
+| Holdout R² | 0.824 |
+
+Five model families compared under 5-fold shuffled cross-validation, the winner tuned
+by a 40-trial randomised search, metrics written to a `model_meta.json` artifact rather
+than left in notebook output.
+
+Then I read the feature list and found this.
+
+## Two Brooklyns
+
+```json
+"feature_names": [
+  "borough_Bronx",
+  "borough_Brooklyn",
+  "borough_Brooklyn ",
+  "borough_Manhattan",
+  ...
+]
+```
+
+Look at the third entry. `borough_Brooklyn ` — with a trailing space.
+
+The source data contained the borough name written two different ways. One-hot
+encoding a categorical column does not know that `"Brooklyn"` and `"Brooklyn "` are
+the same place, so it produced two features where there should be one.
+
+The consequence is that every Brooklyn building contributed to exactly one of those
+two columns, splitting a single signal across two weaker ones. My 43 input features
+were really 42 plus a fault.
+
+## Why no metric caught it
+
+This is the part worth sitting with.
+
+Splitting a categorical level does not corrupt the training data. Both columns are
+still valid indicators, and a tree ensemble is perfectly capable of learning from
+both. The model gets slightly less out of the borough signal than it should, which
+shows up as a marginally worse score — and a marginally worse score is invisible
+unless you have something to compare it against.
+
+Cross-validation cannot see it: the same fault is present in every fold. A holdout
+split cannot see it: the same fault is present in the holdout. Accuracy, MAE, RMSE and
+R² are all computed on predictions, and the predictions were fine. Slightly worse than
+they could have been, but fine.
+
+<Callout>
+A data fault that degrades performance without breaking anything is close to invisible
+to metric-based validation. The metrics tell you how well the model did. They do not
+tell you what the model was denied.
+</Callout>
+
+## What did catch it
+
+Cumulative feature importance, which I had generated for a completely different
+reason: I wanted to know which features mattered so I could write about them.
+
+Two Brooklyn entries appearing in a ranked list of 43 features is not subtle once you
+are looking at the list at all. But I would never have looked at the list if I had
+stopped at the score, and stopping at the score is what most projects do.
+
+<Evidence href="https://github.com/Sasisundar2211/ml-project_implementation">
+ml-project_implementation · data/model_meta.json
+</Evidence>
+
+## Interpretability is a debugging tool first
+
+The framing I had absorbed was that interpretability belongs to fairness, compliance,
+and explaining decisions to regulators. All true, and all downstream of something much
+more immediate.
+
+LIME, surrogate trees and feature importance are instruments for looking inside a
+system you cannot read directly. That is a debugging problem before it is an ethics
+problem. The depth-3 surrogate tree I fitted to approximate the tuned Gradient Boosting
+model exists so I can answer "what is this thing actually keying on", and the answer
+to that question is where bugs live.
+
+## The fix, and the part I have not finished
+
+Strip whitespace on categorical columns before encoding:
+
+```python
+for col in categorical_cols:
+    df[col] = df[col].str.strip()
+```
+
+One line. The re-run is straightforward.
+
+The part I have not finished is more annoying. My README claims a 65 percent
+improvement over a median baseline of 24.8 MAE. That arithmetic is consistent with
+8.6064, but the baseline lives only in the README — it was never written to
+`model_meta.json` alongside the tuned metrics.
+
+So I have a headline number resting on a figure I cannot point at in a file. Given
+that this entire post is about trusting stored evidence over remembered results, that
+is the next commit.
