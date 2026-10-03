@@ -14,7 +14,7 @@ export default function WritingIndex() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <header className="border-b border-rule py-14">
-        <h1 className="font-serif text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">Writing</h1>
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Writing</h1>
         <p className="mt-4 max-w-reading text-[1.0625rem] leading-relaxed text-muted">
           Long-form pieces on building and verifying AI systems. Every technical claim links to the
           commit or file it rests on, so you can check the work rather than take my word for it.

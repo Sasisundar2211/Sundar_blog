@@ -14,7 +14,7 @@ export default function NotesIndex() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <header className="border-b border-rule py-14">
-        <h1 className="font-serif text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">Notes</h1>
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Notes</h1>
         <p className="mt-4 max-w-reading text-[1.0625rem] leading-relaxed text-muted">
           An engineering notebook rather than a publication list. Paper breakdowns, tool
           evaluations, architecture sketches and things that surprised me. These are working notes:

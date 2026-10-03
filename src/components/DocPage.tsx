@@ -92,25 +92,22 @@ export function DocPage({ doc }: { doc: Doc }) {
                 <span className="text-muted">{fm.category}</span>
               </div>
 
-              <h1 className="mt-4 max-w-reading font-serif text-[2rem] font-semibold leading-[1.15] tracking-[-0.02em] sm:text-[2.6rem]">
+              <h1 className="mt-4 max-w-reading font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.02em] sm:text-[2.6rem]">
                 {fm.title}
               </h1>
 
               {fm.deck && (
-                <p className="mt-4 max-w-reading font-serif text-[1.2rem] leading-relaxed text-muted">
+                <p className="mt-4 max-w-reading font-display text-[1.2rem] leading-relaxed text-muted">
                   {fm.deck}
                 </p>
               )}
 
-              <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-muted">
                 <span className="text-ink">{site.name}</span>
-                <span aria-hidden>·</span>
                 <time dateTime={fm.date}>{formatDate(fm.date)}</time>
-                <span aria-hidden>·</span>
                 <span>{doc.readingMinutes} min read</span>
                 {fm.updated && (
                   <>
-                    <span aria-hidden>·</span>
                     <span className="text-faint">Updated {formatDate(fm.updated)}</span>
                   </>
                 )}
@@ -144,7 +141,7 @@ export function DocPage({ doc }: { doc: Doc }) {
                 {previous ? (
                   <Link href={`${base}/${previous.slug}`} className="group">
                     <span className="text-xs text-faint">← Previous</span>
-                    <span className="mt-1 block font-serif text-[1.05rem] leading-snug text-ink group-hover:text-accent">
+                    <span className="mt-1 block font-display text-[1.05rem] leading-snug text-ink group-hover:text-accent">
                       {previous.frontmatter.title}
                     </span>
                   </Link>
@@ -152,7 +149,7 @@ export function DocPage({ doc }: { doc: Doc }) {
                 {next && (
                   <Link href={`${base}/${next.slug}`} className="group sm:text-right">
                     <span className="text-xs text-faint">Next →</span>
-                    <span className="mt-1 block font-serif text-[1.05rem] leading-snug text-ink group-hover:text-accent">
+                    <span className="mt-1 block font-display text-[1.05rem] leading-snug text-ink group-hover:text-accent">
                       {next.frontmatter.title}
                     </span>
                   </Link>
@@ -162,13 +159,13 @@ export function DocPage({ doc }: { doc: Doc }) {
 
             {rel.length > 0 && (
               <section className="mt-14 max-w-reading border-t border-rule pt-8">
-                <h2 className="text-xs font-semibold uppercase tracking-[.14em] text-faint">Related</h2>
+                <h2 className="text-lg font-semibold tracking-[-0.01em]">Related</h2>
                 <ul className="mt-4 space-y-4">
                   {rel.map((r) => (
                     <li key={r.slug}>
                       <Link
                         href={`${r.kind === 'posts' ? '/writing' : '/notes'}/${r.slug}`}
-                        className="font-serif text-[1.05rem] leading-snug text-ink hover:text-accent"
+                        className="font-display text-[1.05rem] leading-snug text-ink hover:text-accent"
                       >
                         {r.frontmatter.title}
                       </Link>
