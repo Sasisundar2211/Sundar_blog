@@ -12,9 +12,8 @@ export default function Now() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-16">
-        <p className="eyebrow">Now</p>
-        <h1 className="mt-5 font-display text-[2.2rem] font-semibold tracking-[-0.03em] sm:text-[2.8rem]">What I am doing this month</h1>
-        <p className="mt-3 font-mono text-xs text-faint">Last updated {updated}</p>
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">What I am doing this month</h1>
+        <p className="mt-3 text-sm text-faint">Last updated {updated}</p>
 
         <div className="prose-editorial mt-10">
           <h2>Running</h2>

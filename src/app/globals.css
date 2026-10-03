@@ -28,13 +28,19 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
+  html { scrollbar-color: rgb(var(--faint) / .5) transparent; accent-color: rgb(var(--accent)); }
   body {
     background: rgb(var(--paper));
     color: rgb(var(--ink));
+    caret-color: rgb(var(--accent));
     font-feature-settings: 'kern' 1, 'liga' 1;
     text-rendering: optimizeLegibility;
   }
   ::selection { background: rgb(var(--accent) / .18); }
+  h1, h2, h3 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+  time, dd, td { font-variant-numeric: tabular-nums; }
+  a { text-underline-offset: 3px; }
   :focus-visible {
     outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
@@ -61,7 +67,7 @@
   .prose-editorial ol { @apply list-decimal pl-6 space-y-2 marker:text-faint; }
   .prose-editorial li > p { @apply mt-0; }
   .prose-editorial blockquote {
-    @apply border-l-2 border-accent/50 pl-5 my-8 font-display text-[1.15rem] leading-relaxed text-ink/85 italic;
+    @apply border-l border-rule pl-5 my-8 font-display text-[1.15rem] leading-relaxed text-ink/85 italic;
   }
   .prose-editorial blockquote p { @apply mt-0; }
   .prose-editorial hr { @apply my-12 border-0 border-t border-rule; }
@@ -82,10 +88,8 @@
     @apply overflow-x-auto rounded-lg border border-rule py-4 text-[.85rem] leading-relaxed;
   }
   .prose-editorial pre > code { @apply grid font-mono; }
-  .prose-editorial pre > code > [data-line] { @apply px-4 border-l-2 border-transparent; }
-  .prose-editorial pre > code > [data-highlighted-line] {
-    @apply border-l-accent bg-accent/[.07];
-  }
+  .prose-editorial pre > code > [data-line] { @apply px-4; }
+  .prose-editorial pre > code > [data-highlighted-line] { @apply bg-accent/[.09]; }
   .prose-editorial [data-rehype-pretty-code-title] {
     @apply font-mono text-xs text-muted px-4 py-2 border border-b-0 border-rule rounded-t-lg bg-raised;
   }
@@ -108,6 +112,3 @@
 }
 .link-underline:hover { background-size: 100% 1.5px; }
 
-.eyebrow {
-  @apply text-sm font-medium text-accent;
-}

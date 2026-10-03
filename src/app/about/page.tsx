@@ -12,8 +12,7 @@ export default function About() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-16">
-        <p className="eyebrow">About</p>
-        <h1 className="mt-5 font-display text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.8rem]">
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl leading-[1.1]">
           I am a builder. My authority is the repository, not the title.
         </h1>
 

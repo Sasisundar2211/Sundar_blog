@@ -82,7 +82,7 @@ export default function Uses() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-14">
-        <h1 className="font-display text-[2.2rem] font-semibold tracking-[-0.03em] sm:text-[2.8rem]">Uses</h1>
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Uses</h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">
           What I actually build with. Everything listed appears in a public repository. Where I am
           still learning something, it says so, because a stack page that lists aspirations is a
@@ -99,7 +99,7 @@ export default function Uses() {
               <dl className="mt-4 space-y-3">
                 {g.items.map(([name, note]) => (
                   <div key={name} className="grid gap-1 sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-4">
-                    <dt className="font-mono text-[.85rem] text-ink">{name}</dt>
+                    <dt className="font-medium text-ink">{name}</dt>
                     <dd className="text-[.95rem] leading-relaxed text-muted">{note}</dd>
                   </div>
                 ))}

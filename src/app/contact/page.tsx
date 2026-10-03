@@ -11,7 +11,7 @@ export default function Contact() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-14">
-        <h1 className="font-display text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">Contact</h1>
+        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Contact</h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">
           Three things get a fast reply: a 2027 role, a client project with one clear bottleneck, or
           a place where I got something wrong. For project enquiries, see{' '}
