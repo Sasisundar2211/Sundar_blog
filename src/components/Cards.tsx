@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Doc } from '@/lib/format';
 import { formatDate, slugify } from '@/lib/format';
 import type { Project } from '@/lib/projects';
+import { ForwardIcon } from './Icons';
 
 export function Tag({ name, kind = 'posts' }: { name: string; kind?: 'posts' | 'notes' }) {
   return (
@@ -93,8 +94,8 @@ export function SectionHeading({
     <div className="mb-2 flex items-baseline justify-between gap-4">
       <h2 className="text-xl font-semibold tracking-[-0.02em] text-ink">{title}</h2>
       {href && (
-        <Link href={href} className="text-sm text-muted transition-colors hover:text-accent">
-          {hrefLabel ?? 'All'} →
+        <Link href={href} className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-accent">
+          {hrefLabel ?? 'All'} <ForwardIcon />
         </Link>
       )}
     </div>

@@ -7,6 +7,7 @@ import { formatDate, headings, neighbours, related, type Doc } from '@/lib/conte
 import { site } from '@/lib/site';
 import { Tag } from './Cards';
 import { CopyCodeButtons, ReadingProgress, ShareRow, TableOfContents } from './Article';
+import { BackIcon, ForwardIcon } from './Icons';
 
 const mdxOptions = {
   mdxOptions: {
@@ -21,9 +22,9 @@ const mdxOptions = {
 function Callout({ children, kind = 'note' }: { children: React.ReactNode; kind?: 'note' | 'warn' }) {
   return (
     <aside
-      className={`my-8 border-l-2 py-4 pl-5 text-[.95rem] leading-relaxed ${
-        kind === 'warn' ? 'border-accent bg-accent/[.05]' : 'border-rule bg-raised'
-      } pr-4`}
+      className={`my-8 py-4 text-[.95rem] leading-relaxed ${
+        kind === 'warn' ? 'bg-accent/[.07]' : 'bg-raised'
+      } rounded-xl px-5`}
     >
       {children}
     </aside>
@@ -140,7 +141,7 @@ export function DocPage({ doc }: { doc: Doc }) {
               <nav aria-label="Article" className="mt-10 grid max-w-reading gap-4 border-t border-rule pt-8 sm:grid-cols-2">
                 {previous ? (
                   <Link href={`${base}/${previous.slug}`} className="group">
-                    <span className="text-xs text-faint">← Previous</span>
+                    <span className="inline-flex items-center gap-1 text-xs text-faint"><BackIcon /> Previous</span>
                     <span className="mt-1 block font-display text-[1.05rem] leading-snug text-ink group-hover:text-accent">
                       {previous.frontmatter.title}
                     </span>
@@ -148,7 +149,7 @@ export function DocPage({ doc }: { doc: Doc }) {
                 ) : <span />}
                 {next && (
                   <Link href={`${base}/${next.slug}`} className="group sm:text-right">
-                    <span className="text-xs text-faint">Next →</span>
+                    <span className="inline-flex items-center gap-1 text-xs text-faint">Next <ForwardIcon /></span>
                     <span className="mt-1 block font-display text-[1.05rem] leading-snug text-ink group-hover:text-accent">
                       {next.frontmatter.title}
                     </span>

@@ -3,6 +3,7 @@ import { getAll } from '@/lib/content';
 import { featuredProjects } from '@/lib/projects';
 import { ArticleRow, ProjectRow, SectionHeading } from '@/components/Cards';
 import { site } from '@/lib/site';
+import { ExternalIcon } from '@/components/Icons';
 
 export default function Home() {
   const posts = getAll('posts').slice(0, 3);
@@ -52,7 +53,7 @@ export default function Home() {
 
       {/* Contact */}
       <section className="border-t border-rule py-14">
-        <div className="rounded-lg bg-raised px-6 py-10 sm:px-10">
+        <div className="rounded-2xl bg-raised px-6 py-10 sm:px-10">
           <h2 className="text-2xl font-semibold tracking-[-0.02em]">Hiring for 2027, or need software built?</h2>
           <p className="mt-3 max-w-reading text-muted">
             I reply to every email about a role or a project.
@@ -64,8 +65,8 @@ export default function Home() {
             >
               Email me
             </a>
-            <a href={site.github} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">GitHub ↗</a>
-            <a href={site.linkedin} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">LinkedIn ↗</a>
+            <a href={site.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">GitHub <ExternalIcon /></a>
+            <a href={site.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">LinkedIn <ExternalIcon /></a>
           </div>
         </div>
       </section>

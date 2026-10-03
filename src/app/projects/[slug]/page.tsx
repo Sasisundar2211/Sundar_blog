@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { projects, getProject } from '@/lib/projects';
+import { ExternalIcon } from '@/components/Icons';
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -35,17 +36,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <span className="text-faint" aria-hidden>/</span>
             <span className="text-muted">{p.status}</span>
           </div>
-          <h1 className="mt-4 font-display text-[2rem] font-semibold leading-tight tracking-[-0.02em] sm:text-[2.6rem]">
+          <h1 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
             {p.name}
           </h1>
           <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">{p.summary}</p>
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-            <a href={p.repo} target="_blank" rel="noreferrer" className="text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">
-              Source ↗
+            <a href={p.repo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">
+              Source <ExternalIcon />
             </a>
             {p.demo && (
-              <a href={p.demo} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">
-                Live ↗
+              <a href={p.demo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">
+                Live <ExternalIcon />
               </a>
             )}
           </div>
@@ -54,8 +55,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <dl className="my-8 grid max-w-reading grid-cols-2 gap-x-6 gap-y-4 border-b border-rule pb-8 sm:grid-cols-3">
           {p.facts.map((f) => (
             <div key={f.label}>
-              <dt className="text-[.7rem] uppercase tracking-wider text-faint">{f.label}</dt>
-              <dd className="mt-0.5 font-mono text-sm text-ink">{f.value}</dd>
+              <dt className="text-sm text-faint">{f.label}</dt>
+              <dd className="mt-0.5 text-[.95rem] font-medium text-ink">{f.value}</dd>
             </div>
           ))}
         </dl>
@@ -68,18 +69,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
           <section>
             <h2 className="font-display text-[1.4rem] font-semibold">Architecture</h2>
-            <ul className="mt-3 space-y-2.5 text-[1.0625rem] leading-relaxed text-ink/90">
-              {p.architecture.map((a, i) => (
-                <li key={i} className="border-l-2 border-rule pl-4">{a}</li>
-              ))}
+            <ul className="mt-3 list-disc space-y-2.5 pl-5 text-[1.0625rem] leading-relaxed text-ink/90 marker:text-faint">
+              {p.architecture.map((a, i) => <li key={i}>{a}</li>)}
             </ul>
           </section>
 
           <section>
             <h2 className="font-display text-[1.4rem] font-semibold">Engineering decisions</h2>
-            <div className="mt-4 space-y-6">
+            <div className="mt-4 divide-y divide-rule">
               {p.decisions.map((d) => (
-                <div key={d.title} className="border border-rule p-5">
+                <div key={d.title} className="py-5 first:pt-1">
                   <h3 className="font-display text-[1.1rem] font-semibold text-ink">{d.title}</h3>
                   <p className="mt-2 text-[.975rem] leading-relaxed text-muted">{d.body}</p>
                 </div>

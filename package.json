@@ -9,6 +9,7 @@
     "test": "node --experimental-strip-types --test src/lib/copy.test.ts"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "gray-matter": "4.0.3",
     "next": "^16.3.4",
     "next-mdx-remote": "^6.0.0",

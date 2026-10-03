@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { site } from '@/lib/site';
+import { ExternalIcon } from '@/components/Icons';
 
 export const metadata: Metadata = {
   title: 'Work with me',
@@ -28,6 +29,14 @@ const offers = [
   },
 ];
 
+const caseStudy = [
+  ['Library', '5 books with chapter drawers and topic notes'],
+  ['Reader', 'pdfjs-dist renders to an HTML5 canvas, no native download'],
+  ['Anti-piracy', 'Email, phone and IP watermark on every page'],
+  ['Payments', 'Razorpay with HMAC SHA-256 webhook provisioning'],
+  ['Tests', 'Timed MCQs with 0.25 negative marking and review'],
+];
+
 const process = [
   ['Scope', 'One call. I write down the bottleneck, the constraint and what done means.'],
   ['Architecture', 'A short written design before any code. You approve the trade-offs.'],
@@ -40,8 +49,7 @@ export default function Work() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <header className="border-b border-rule py-16">
-        <p className="eyebrow">Client builds</p>
-        <h1 className="mt-5 max-w-3xl font-display text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[3rem]">
+        <h1 className="max-w-3xl font-display text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[3rem]">
           Clients do not pay for code complexity.
           <span className="block text-muted">They pay for zero operational friction.</span>
         </h1>
@@ -60,14 +68,14 @@ export default function Work() {
 
       <section className="py-16">
         <h2 className="text-xl font-semibold tracking-[-0.02em]">What I build</h2>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        <dl className="mt-6 grid gap-x-12 gap-y-8 sm:grid-cols-2">
           {offers.map((o) => (
-            <div key={o.title} className="rounded-xl border border-rule p-6">
-              <h3 className="font-display text-lg font-semibold tracking-[-0.01em]">{o.title}</h3>
-              <p className="mt-2 text-[.95rem] leading-relaxed text-muted">{o.body}</p>
+            <div key={o.title} className="border-t border-rule pt-5">
+              <dt className="text-lg font-semibold tracking-[-0.01em]">{o.title}</dt>
+              <dd className="mt-2 text-[.95rem] leading-relaxed text-muted">{o.body}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       <section className="border-t border-rule py-16">
@@ -80,20 +88,21 @@ export default function Work() {
             </p>
             <p>Instead of a bloated LMS subscription, I built this. It is live.</p>
           </div>
-          <ul className="space-y-3 rounded-xl border border-rule bg-raised/50 p-6 font-mono text-[.82rem] leading-relaxed">
-            <li><span className="text-accent">→</span> <span className="text-ink">Library:</span> <span className="text-muted">5 books, chapter drawers, topic notes</span></li>
-            <li><span className="text-accent">→</span> <span className="text-ink">Reader:</span> <span className="text-muted">pdfjs-dist onto HTML5 canvas, no native download</span></li>
-            <li><span className="text-accent">→</span> <span className="text-ink">Anti-piracy:</span> <span className="text-muted">email + phone + IP watermark on every page</span></li>
-            <li><span className="text-accent">→</span> <span className="text-ink">Payments:</span> <span className="text-muted">Razorpay + HMAC SHA-256 webhook provisioning</span></li>
-            <li><span className="text-accent">→</span> <span className="text-ink">Tests:</span> <span className="text-muted">timed MCQs, −0.25 negative marking, review</span></li>
-          </ul>
+          <dl className="divide-y divide-rule rounded-2xl bg-raised px-6 py-2">
+            {caseStudy.map(([k, v]) => (
+              <div key={k} className="grid gap-1 py-3 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-4">
+                <dt className="text-sm font-medium text-ink">{k}</dt>
+                <dd className="text-sm text-muted">{v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
         <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
           <Link href="/projects/finance-psu-guide" className="font-medium text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">
             Read the architecture
           </Link>
-          <a href="https://github.com/Sasisundar2211/finance_psu_guide" target="_blank" rel="noreferrer" className="text-muted hover:text-ink">
-            Repository ↗
+          <a href="https://github.com/Sasisundar2211/finance_psu_guide" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">
+            Repository <ExternalIcon />
           </a>
         </div>
       </section>
@@ -111,7 +120,7 @@ export default function Work() {
       </section>
 
       <section className="border-t border-rule py-16">
-        <div className="rounded-2xl border border-rule bg-raised/50 p-8 sm:p-12">
+        <div className="rounded-2xl bg-raised p-8 sm:p-12">
           <h2 className="max-w-2xl font-display text-[1.6rem] font-semibold leading-snug tracking-[-0.02em]">
             Send me the manual task that costs you the most hours each week.
           </h2>
