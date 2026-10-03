@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { nav, site } from '@/lib/site';
+import { nav, navCta, site } from '@/lib/site';
 
 export function Nav() {
   const pathname = usePathname();
@@ -21,9 +21,12 @@ export function Nav() {
       <div className="mx-auto flex h-14 max-w-wide items-center justify-between px-5 sm:px-8">
         <Link
           href="/"
-          className="font-serif text-[1.0625rem] font-semibold tracking-[-0.01em] text-ink"
+          className="flex items-center gap-2.5 font-display text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink"
         >
-          Sasi Sundar
+          <span aria-hidden className="grid h-7 w-7 place-items-center rounded-md bg-ink font-mono text-[.7rem] font-semibold text-paper">
+            SS
+          </span>
+          {site.name}
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
@@ -39,14 +42,13 @@ export function Nav() {
               {item.label}
             </Link>
           ))}
-          <a
-            href={site.github}
-            target="_blank"
-            rel="noreferrer"
-            className="text-[.9rem] text-muted transition-colors hover:text-ink"
+          <Link
+            href={navCta.href}
+            aria-current={isActive(navCta.href) ? 'page' : undefined}
+            className="rounded-lg bg-ink px-4 py-2 text-[.9rem] font-medium text-paper transition hover:opacity-90 active:scale-[0.98]"
           >
-            GitHub ↗
-          </a>
+            {navCta.label}
+          </Link>
         </nav>
 
         <button
@@ -80,9 +82,13 @@ export function Nav() {
               </li>
             ))}
             <li>
-              <a href={site.github} target="_blank" rel="noreferrer" className="block py-3 text-[.95rem] text-muted">
-                GitHub ↗
-              </a>
+              <Link
+                href={navCta.href}
+                onClick={() => setOpen(false)}
+                className="block py-3 text-[.95rem] font-medium text-ink"
+              >
+                {navCta.label}
+              </Link>
             </li>
           </ul>
         </nav>

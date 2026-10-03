@@ -7,9 +7,9 @@ export function Footer() {
       <div className="mx-auto max-w-wide px-5 py-12 sm:px-8">
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           <div className="max-w-sm">
-            <p className="font-serif text-[1.05rem] text-ink">Every claim here links to the code.</p>
+            <p className="font-display text-[1.05rem] font-semibold text-ink">Every claim here links to the code.</p>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Notes on AI engineering, verification and developer tooling. Roughly one piece a fortnight.
+              {site.thesis}
             </p>
             <a
               href="/rss.xml"
@@ -19,7 +19,7 @@ export function Footer() {
             </a>
           </div>
 
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-12 gap-y-2 text-sm sm:gap-x-16">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm sm:gap-x-16">
             <Link href="/writing" className="text-muted hover:text-ink">Writing</Link>
             <a href={site.github} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">GitHub</a>
             <Link href="/projects" className="text-muted hover:text-ink">Projects</Link>
@@ -28,11 +28,15 @@ export function Footer() {
             <a href={`mailto:${site.email}`} className="text-muted hover:text-ink">Email</a>
             <Link href="/about" className="text-muted hover:text-ink">About</Link>
             <Link href="/uses" className="text-muted hover:text-ink">Uses</Link>
+            <Link href="/work" className="text-muted hover:text-ink">Work with me</Link>
+            <a href={site.x} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">X</a>
+            <Link href="/now" className="text-muted hover:text-ink">Now</Link>
+            <Link href="/contact" className="text-muted hover:text-ink">Contact</Link>
           </nav>
         </div>
 
         <p className="mt-12 border-t border-rule pt-6 text-xs text-faint">
-          © {new Date().getFullYear()} Sasi Sundar · {site.location}
+          © {new Date().getFullYear()} {site.fullName} · {site.location}
         </p>
       </div>
     </footer>
