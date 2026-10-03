@@ -1,6 +1,6 @@
 /**
  * Pure, isomorphic helpers and shared types.
- * MUST NOT import node builtins — this module is reachable from client components.
+ * MUST NOT import node builtins. This module is reachable from client components.
  */
 export type Kind = 'posts' | 'notes';
 

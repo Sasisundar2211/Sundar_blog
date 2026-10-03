@@ -38,7 +38,7 @@ Then I read the feature list and found this.
 ]
 ```
 
-Look at the third entry. `borough_Brooklyn ` — with a trailing space.
+Look at the third entry. `borough_Brooklyn `, with a trailing space.
 
 The source data contained the borough name written two different ways. One-hot
 encoding a categorical column does not know that `"Brooklyn"` and `"Brooklyn "` are
@@ -55,7 +55,7 @@ This is the part worth sitting with.
 Splitting a categorical level does not corrupt the training data. Both columns are
 still valid indicators, and a tree ensemble is perfectly capable of learning from
 both. The model gets slightly less out of the borough signal than it should, which
-shows up as a marginally worse score — and a marginally worse score is invisible
+shows up as a marginally worse score. And a marginally worse score is invisible
 unless you have something to compare it against.
 
 Cross-validation cannot see it: the same fault is present in every fold. A holdout
@@ -107,7 +107,7 @@ One line. The re-run is straightforward.
 
 The part I have not finished is more annoying. My README claims a 65 percent
 improvement over a median baseline of 24.8 MAE. That arithmetic is consistent with
-8.6064, but the baseline lives only in the README — it was never written to
+8.6064, but the baseline lives only in the README. It was never written to
 `model_meta.json` alongside the tuned metrics.
 
 So I have a headline number resting on a figure I cannot point at in a file. Given

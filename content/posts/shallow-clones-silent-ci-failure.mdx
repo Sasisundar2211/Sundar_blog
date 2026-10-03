@@ -11,7 +11,7 @@ evidence: "fix(verify): distinguish diff failure from no-changes on shallow clon
 ---
 
 Vouqis Verify has one job. When a pull request touches a path I have marked as
-AI-relevant — prompts, agents, evals, model configuration — it runs the repository's
+AI-relevant (prompts, agents, evals, model configuration), it runs the repository's
 evaluation command and posts the result back to the PR.
 
 For several commits it did that job on my machine and quietly refused to do it in CI,
@@ -34,7 +34,7 @@ workflows never notice.
 My change detection did notice, because it was built on a diff against the base ref:
 
 ```python
-# core/diff.py — the shape of the original logic
+# core/diff.py: the shape of the original logic
 changed = run_git_diff(base_ref, head_ref)
 ai_paths = [p for p in changed if matches_ai_globs(p)]
 
