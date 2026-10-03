@@ -11,10 +11,11 @@ export default function Contact() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-14">
-        <h1 className="font-serif text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">Contact</h1>
+        <h1 className="font-display text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">Contact</h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">
-          The most useful thing you can send me is a specific question about something I have built,
-          or a place where I got something wrong. Both get a reply.
+          Three things get a fast reply: a 2027 role, a client project with one clear bottleneck, or
+          a place where I got something wrong. For project enquiries, see{' '}
+          <a href="/work" className="text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">work with me</a>.
         </p>
 
         <dl className="mt-10 space-y-5">
@@ -29,6 +30,10 @@ export default function Contact() {
           <div className="grid gap-1 border-b border-rule pb-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-4">
             <dt className="text-xs uppercase tracking-wider text-faint">LinkedIn</dt>
             <dd><a href={site.linkedin} target="_blank" rel="noreferrer" className="text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">sasi-sundar</a></dd>
+          </div>
+          <div className="grid gap-1 border-b border-rule pb-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-4">
+            <dt className="text-xs uppercase tracking-wider text-faint">X</dt>
+            <dd><a href={site.x} target="_blank" rel="noreferrer" className="text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">@SasiSundar09</a></dd>
           </div>
           <div className="grid gap-1 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-4">
             <dt className="text-xs uppercase tracking-wider text-faint">Based in</dt>

@@ -3,76 +3,109 @@ import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Sasi Sundar — final-year B.Tech student in AI & Machine Learning, building developer tooling for AI systems.',
+  description:
+    'B. S. V. Sasi Sundar. Final-year B.Tech in AI & Machine Learning, Class of 2027. AI-native builder of client platforms and AI evaluation tooling.',
   alternates: { canonical: '/about' },
 };
 
 export default function About() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
-      <div className="max-w-reading py-14">
-        <h1 className="font-serif text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">About</h1>
+      <div className="max-w-reading py-16">
+        <p className="eyebrow">About</p>
+        <h1 className="mt-5 font-display text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[2.8rem]">
+          I am a builder. My authority is the repository, not the title.
+        </h1>
 
-        <div className="prose-editorial mt-8">
+        <div className="prose-editorial mt-10">
           <p>
-            I am Sasi Sundar. I am finishing a B.Tech in Artificial Intelligence and Machine
-            Learning in July 2027, and I spend most of my time outside coursework building
-            developer tooling for AI systems and writing down what breaks.
+            I am {site.fullName}. I finish a B.Tech in Artificial Intelligence and Machine
+            Learning in July 2027.
+          </p>
+          <p>
+            I am an AI-native practitioner. I direct coding agents from the terminal, wire up APIs,
+            and ship with Next.js, Supabase, Make and n8n.
+          </p>
+          <p>
+            I do not call myself a founder or a CEO. Nothing I run is incorporated or funded. I
+            ship code, measure it, and publish what broke.
+          </p>
+
+          <h2>The thesis</h2>
+          <blockquote>
+            <p>{site.thesis}</p>
+          </blockquote>
+          <p>
+            AI writes syntax faster than I do. It does not decide what to build, where the system
+            fails, or when the output is safe to trust. That part stays with me.
+          </p>
+          <p>
+            The hardest part of building with AI is not making it work. It is knowing when you can
+            trust it.
           </p>
 
           <h2>What I work on</h2>
           <p>
-            The thread running through everything I build is verification: when a change touches
-            an AI system, what evidence does a reviewer need before merging it? That question
-            produced <a href="/projects/vouqis-verify">Vouqis Verify</a>, a CLI and GitHub Action
-            that detects AI-related changes in a pull request, runs the repository&rsquo;s existing
-            evaluation command, and posts a structured report back to the PR.
+            <strong>Client platforms, since July 2026.</strong>{' '}
+            <a href="/projects/finance-psu-guide">Finance PSU Guide</a> is a live commercial
+            exam-prep platform. A canvas-rendered, watermarked PDF reader. Razorpay payments
+            provisioned by signed webhooks. A timed mock-test engine.
           </p>
           <p>
-            Before that I built <a href="/projects/procureguard">ProcureGuard</a>, a FastAPI service
-            that detects vendor price drift and explains its findings, and{' '}
-            <a href="/projects/energy-star-regression">a regression pipeline</a> over the NYC Energy
-            Benchmarking dataset where the interpretability layer found a data bug the metrics
-            never surfaced.
+            <strong>Evaluation and verification.</strong>{' '}
+            <a href="/projects/vouqis-verify">Vouqis Verify</a> is a CLI and GitHub Action. It
+            detects AI-related changes in a pull request, runs the repository&rsquo;s eval command,
+            and posts an evidence report to the PR. 87 tests across 9 modules.
+          </p>
+          <p>
+            <strong>Build breakdowns, since 30 September 2026.</strong> CommandBuild is the page
+            where I publish what I build, how it works, and what broke.
+          </p>
+          <p>
+            <strong>Applied ML.</strong>{' '}
+            <a href="/projects/energy-star-regression">A regression pipeline</a> on NYC energy data.
+            R² 0.824 on 2,776 holdout rows. The interpretability layer found a data bug the metrics
+            missed.
           </p>
 
           <h2>Experience</h2>
           <p>
-            In 2025 I was selected for an AI/ML internship at BITS Pilani, Hyderabad Campus, where I
-            built supervised learning models in Python and scikit-learn. Earlier that year I was
-            selected nationally for the Microsoft and SAP TechSaksham programme through AICTE, where
-            I built a resume-ranking service in Flask and presented it to domain experts from both
-            companies.
+            2025: AI/ML internship at BITS Pilani, Hyderabad Campus. I built supervised learning
+            models in Python and scikit-learn.
           </p>
           <p>
-            I have accepted an AI and Automation internship at FTSITS Ltd and have not started yet.
-            I would rather say that plainly than list it as current work.
+            2025: selected nationally for the Microsoft and SAP TechSaksham programme through
+            AICTE. I built a resume-ranking service in Flask and presented it to engineers from
+            both companies.
           </p>
+          <p>Accepted: AI and Automation internship at FTSITS Ltd.</p>
 
           <h2>How I write</h2>
+          <p>Every technical claim on this site links to the commit or file it rests on.</p>
           <p>
-            Every technical claim on this site links to the commit or the file it rests on. That is
-            an unusual thing to do and it is deliberate. I spent a long time describing my own work
-            in language that sounded more impressive than the code supported, and reading my own
-            repositories carefully was the correction. The rule now is simple: if I cannot point at
-            the line, I do not write the sentence.
-          </p>
-          <p>
-            I write about roughly one thing a fortnight, usually a bug I did not expect, a decision
-            with a real trade-off, or something I got wrong and had to unwind.
+            Every metric carries its denominator. &ldquo;28 out of 40 edge cases&rdquo;, never
+            &ldquo;70% better&rdquo;. If I cannot point at the line, I do not write the sentence.
           </p>
 
-          <h2>What I am not</h2>
+          <h2>What I have not done yet</h2>
           <p>
-            I have not shipped anything at production scale, run an on-call rotation, or trained a
-            model larger than a scikit-learn ensemble. I have no users on any tool I have built.
-            Those are gaps I am closing rather than facts I am hiding.
+            I have not run a system at production scale or carried a pager. I have not trained a
+            model larger than a scikit-learn ensemble. Vouqis Verify has no external users yet.
+            ProcureGuard was an experiment I never shipped.
+          </p>
+          <p>Those are gaps I am closing. I would rather state them than hide them.</p>
+
+          <h2>What I am looking for</h2>
+          <p>
+            New-grad roles for 2027 in AI engineering, applied AI and software engineering. Open
+            to relocation, including international offices.
           </p>
 
           <h2>Elsewhere</h2>
           <ul>
-            <li><a href={site.github} target="_blank" rel="noreferrer">GitHub</a> — everything I build is public</li>
+            <li><a href={site.github} target="_blank" rel="noreferrer">GitHub</a>: everything I build is public</li>
             <li><a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></li>
+            <li><a href={site.x} target="_blank" rel="noreferrer">X</a></li>
             <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
           </ul>
         </div>

@@ -18,7 +18,7 @@ const groups: { heading: string; note?: string; items: [string, string][] }[] = 
   {
     heading: 'Backend & APIs',
     items: [
-      ['FastAPI', 'Seven handlers in ProcureGuard, with Pydantic contracts on every one.'],
+      ['FastAPI', 'Pydantic contracts on every handler. First used in the ProcureGuard experiment.'],
       ['Pydantic', 'Request and response schemas. Catches the class of bug that otherwise reaches the client.'],
       ['Flask', 'The TechSaksham resume-ranking service.'],
       ['Typer', 'The Vouqis Verify CLI.'],
@@ -38,7 +38,7 @@ const groups: { heading: string; note?: string; items: [string, string][] }[] = 
     items: [
       ['pytest', '87 test cases across 9 modules in Vouqis Verify.'],
       ['GitHub Actions', 'CI on both main repositories, and the delivery mechanism for Vouqis Verify itself.'],
-      ['Docker', 'A two-stage build in ProcureGuard; a second image that runs as a non-root user.'],
+      ['Docker', 'Container builds, including a non-root runtime image.'],
     ],
   },
   {
@@ -47,6 +47,13 @@ const groups: { heading: string; note?: string; items: [string, string][] }[] = 
       ['Next.js (App Router)', 'This site, the Vouqis dashboard, firmrunner.'],
       ['Tailwind CSS', 'Styling everywhere.'],
       ['Supabase', 'Persistence and auth in firmrunner.'],
+      ['pdfjs-dist', 'Canvas rendering for the view-only reader in Finance PSU Guide.'],
+    ],
+  },
+  {
+    heading: 'Payments',
+    items: [
+      ['Razorpay', 'Checkout plus HMAC SHA-256 verified webhooks. The server grants access, never the browser.'],
     ],
   },
   {
@@ -61,6 +68,9 @@ const groups: { heading: string; note?: string; items: [string, string][] }[] = 
     heading: 'Everyday',
     items: [
       ['VS Code', 'Primary editor.'],
+      ['Claude Code', 'The execution team. I review every diff it produces.'],
+      ['Make / n8n', 'Webhook and API automations where a full app is overkill.'],
+      ['Wispr Flow', 'Voice drafting. I speak first drafts and cut them down by hand.'],
       ['Git + GitHub', 'Pull requests even when working alone. The review habit is the point.'],
       ['Vercel', 'Deployment for anything with a frontend.'],
       ['PyPI', 'Distribution for the CLI.'],
@@ -72,7 +82,7 @@ export default function Uses() {
   return (
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-14">
-        <h1 className="font-serif text-[2rem] font-semibold tracking-[-0.02em] sm:text-[2.5rem]">Uses</h1>
+        <h1 className="font-display text-[2.2rem] font-semibold tracking-[-0.03em] sm:text-[2.8rem]">Uses</h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">
           What I actually build with. Everything listed appears in a public repository. Where I am
           still learning something, it says so, because a stack page that lists aspirations is a
@@ -82,7 +92,7 @@ export default function Uses() {
         <div className="mt-12 space-y-10">
           {groups.map((g) => (
             <section key={g.heading}>
-              <h2 className="border-b border-ink pb-2 text-xs font-semibold uppercase tracking-[.14em]">
+              <h2 className="border-b border-rule pb-2 text-lg font-semibold tracking-[-0.01em]">
                 {g.heading}
               </h2>
               {g.note && <p className="mt-3 text-sm italic text-faint">{g.note}</p>}
