@@ -4,23 +4,23 @@
 
 @layer base {
   :root {
-    --paper: 251 250 248;
-    --raised: 245 243 238;
-    --ink: 22 22 26;
-    --muted: 88 88 96;
-    --faint: 140 138 146;
-    --rule: 226 222 214;
-    --accent: 168 68 42;
+    --paper: 250 250 250;
+    --raised: 244 244 245;
+    --ink: 24 24 27;
+    --muted: 82 82 91;
+    --faint: 113 113 122;
+    --rule: 228 228 231;
+    --accent: 180 83 9;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: 13 13 15;
-      --raised: 22 22 26;
-      --ink: 235 233 228;
-      --muted: 156 154 149;
-      --faint: 114 112 110;
-      --rule: 40 40 46;
-      --accent: 232 138 98;
+      --paper: 12 12 14;
+      --raised: 24 24 27;
+      --ink: 244 244 245;
+      --muted: 161 161 170;
+      --faint: 133 133 143;
+      --rule: 39 39 42;
+      --accent: 251 191 36;
     }
   }
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -46,10 +46,10 @@
   .prose-editorial { @apply text-[1.0625rem] leading-[1.75] text-ink; }
   .prose-editorial > * + * { @apply mt-6; }
   .prose-editorial h2 {
-    @apply font-serif text-[1.6rem] leading-tight mt-14 mb-1 scroll-mt-24 font-semibold tracking-[-0.01em];
+    @apply font-display text-[1.6rem] leading-tight mt-14 mb-1 scroll-mt-24 font-semibold tracking-[-0.01em];
   }
   .prose-editorial h3 {
-    @apply font-serif text-[1.25rem] leading-snug mt-10 mb-1 scroll-mt-24 font-semibold;
+    @apply font-display text-[1.25rem] leading-snug mt-10 mb-1 scroll-mt-24 font-semibold;
   }
   .prose-editorial p { @apply text-ink/90; }
   .prose-editorial a {
@@ -61,7 +61,7 @@
   .prose-editorial ol { @apply list-decimal pl-6 space-y-2 marker:text-faint; }
   .prose-editorial li > p { @apply mt-0; }
   .prose-editorial blockquote {
-    @apply border-l-2 border-accent/50 pl-5 my-8 font-serif text-[1.15rem] leading-relaxed text-ink/85 italic;
+    @apply border-l-2 border-accent/50 pl-5 my-8 font-display text-[1.15rem] leading-relaxed text-ink/85 italic;
   }
   .prose-editorial blockquote p { @apply mt-0; }
   .prose-editorial hr { @apply my-12 border-0 border-t border-rule; }
@@ -107,3 +107,7 @@
   transition: background-size .25s ease;
 }
 .link-underline:hover { background-size: 100% 1.5px; }
+
+.eyebrow {
+  @apply text-sm font-medium text-accent;
+}

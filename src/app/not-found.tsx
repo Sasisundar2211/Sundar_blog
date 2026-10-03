@@ -5,7 +5,7 @@ export default function NotFound() {
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       <div className="max-w-reading py-28">
         <p className="font-mono text-sm text-accent">404</p>
-        <h1 className="mt-3 font-serif text-[2rem] font-semibold tracking-[-0.02em]">
+        <h1 className="mt-3 font-display text-[2rem] font-semibold tracking-[-0.02em]">
           Nothing at this address.
         </h1>
         <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">

@@ -35,7 +35,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <span className="text-faint" aria-hidden>/</span>
             <span className="text-muted">{p.status}</span>
           </div>
-          <h1 className="mt-4 font-serif text-[2rem] font-semibold leading-tight tracking-[-0.02em] sm:text-[2.6rem]">
+          <h1 className="mt-4 font-display text-[2rem] font-semibold leading-tight tracking-[-0.02em] sm:text-[2.6rem]">
             {p.name}
           </h1>
           <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">{p.summary}</p>
@@ -62,12 +62,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <div className="max-w-reading space-y-12">
           <section>
-            <h2 className="font-serif text-[1.4rem] font-semibold">Why I built it</h2>
+            <h2 className="font-display text-[1.4rem] font-semibold">Why I built it</h2>
             <p className="mt-3 text-[1.0625rem] leading-relaxed text-ink/90">{p.why}</p>
           </section>
 
           <section>
-            <h2 className="font-serif text-[1.4rem] font-semibold">Architecture</h2>
+            <h2 className="font-display text-[1.4rem] font-semibold">Architecture</h2>
             <ul className="mt-3 space-y-2.5 text-[1.0625rem] leading-relaxed text-ink/90">
               {p.architecture.map((a, i) => (
                 <li key={i} className="border-l-2 border-rule pl-4">{a}</li>
@@ -76,11 +76,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </section>
 
           <section>
-            <h2 className="font-serif text-[1.4rem] font-semibold">Engineering decisions</h2>
+            <h2 className="font-display text-[1.4rem] font-semibold">Engineering decisions</h2>
             <div className="mt-4 space-y-6">
               {p.decisions.map((d) => (
                 <div key={d.title} className="border border-rule p-5">
-                  <h3 className="font-serif text-[1.1rem] font-semibold text-ink">{d.title}</h3>
+                  <h3 className="font-display text-[1.1rem] font-semibold text-ink">{d.title}</h3>
                   <p className="mt-2 text-[.975rem] leading-relaxed text-muted">{d.body}</p>
                 </div>
               ))}
@@ -88,14 +88,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </section>
 
           <section>
-            <h2 className="font-serif text-[1.4rem] font-semibold">What I learned</h2>
+            <h2 className="font-display text-[1.4rem] font-semibold">What I learned</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-[1.0625rem] leading-relaxed text-ink/90 marker:text-accent">
               {p.lessons.map((l, i) => <li key={i}>{l}</li>)}
             </ul>
           </section>
 
           <section>
-            <h2 className="font-serif text-[1.4rem] font-semibold">Stack</h2>
+            <h2 className="font-display text-[1.4rem] font-semibold">Stack</h2>
             <div className="mt-3 flex flex-wrap gap-2">
               {p.stack.map((s) => (
                 <span key={s} className="rounded-full border border-rule px-3 py-1 text-sm text-muted">{s}</span>

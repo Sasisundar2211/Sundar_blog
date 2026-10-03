@@ -1,19 +1,16 @@
 import type { Metadata } from 'next';
-import { Newsreader, Inter, JetBrains_Mono } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const serif = Newsreader({
-  subsets: ['latin'], display: 'swap', variable: '--font-serif', axes: ['opsz'],
-});
-const sans = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-sans' });
-const mono = JetBrains_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-mono' });
+const sans = Geist({ subsets: ['latin'], display: 'swap', variable: '--font-sans' });
+const mono = Geist_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-mono' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: site.title, template: `%s — ${site.name}` },
+  title: { default: site.title, template: `%s | ${site.name}` },
   description: site.description,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
@@ -33,17 +30,19 @@ const personLd = {
   url: site.url,
   email: site.email,
   sameAs: [site.github, site.linkedin, site.x],
-  jobTitle: 'AI/ML Engineering Student',
+  alternateName: site.fullName,
+  jobTitle: 'Software Engineer, AI Systems',
+  description: site.description,
   knowsAbout: [
-    'AI engineering', 'Machine learning', 'AI verification',
-    'Developer tools', 'MLOps', 'Python', 'FastAPI',
+    'AI engineering', 'Model evaluation', 'AI verification', 'Backend engineering',
+    'Developer tools', 'MLOps', 'Python', 'FastAPI', 'Next.js', 'Payments integration',
   ],
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Potti Sreeramulu Engineering College' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"
