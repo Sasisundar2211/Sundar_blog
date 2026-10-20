@@ -10,3 +10,13 @@ out/
 .claude/settings.local.json
 .impeccable/config.local.json
 .impeccable/*.cache.json
+
+# Agent plugin runtime state (written per session, never source)
+.claude-flow/
+.swarm/
+ruvector.db
+**/.claude-flow/
+**/.swarm/
+**/ruvector.db
+.claude/proven-config.json
+.claude/.proven-config-version
