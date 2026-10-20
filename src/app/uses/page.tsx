@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Page, PageHead, Section } from '@/components/Ledger';
 
 export const metadata: Metadata = {
   title: 'Uses',
@@ -80,34 +81,30 @@ const groups: { heading: string; note?: string; items: [string, string][] }[] = 
 
 export default function Uses() {
   return (
-    <div className="mx-auto max-w-wide px-5 sm:px-8">
-      <div className="max-w-reading py-14">
-        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Uses</h1>
-        <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">
-          What I actually build with. Everything listed appears in a public repository. Where I am
-          still learning something, it says so, because a stack page that lists aspirations is a
-          stack page nobody can trust.
-        </p>
-
-        <div className="mt-12 space-y-10">
-          {groups.map((g) => (
-            <section key={g.heading}>
-              <h2 className="border-b border-rule pb-2 text-lg font-semibold tracking-[-0.01em]">
-                {g.heading}
-              </h2>
-              {g.note && <p className="mt-3 text-sm italic text-faint">{g.note}</p>}
-              <dl className="mt-4 space-y-3">
-                {g.items.map(([name, note]) => (
-                  <div key={name} className="grid gap-1 sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-4">
-                    <dt className="font-medium text-ink">{name}</dt>
-                    <dd className="text-[.95rem] leading-relaxed text-muted">{note}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          ))}
-        </div>
-      </div>
-    </div>
+    <Page>
+      <PageHead
+        title="Uses"
+        margin={<p>Verified against public repositories</p>}
+        intro={
+          <p>
+            What I actually build with. Everything listed appears in a public repository. Where I am
+            still learning something, it says so, because a stack page that lists aspirations is a
+            stack page nobody can trust.
+          </p>
+        }
+      />
+      {groups.map((g) => (
+        <Section key={g.heading} title={g.heading} margin={g.note}>
+          <dl className="max-w-[52rem]">
+            {g.items.map(([name, note]) => (
+              <div key={name} className="grid gap-1 border-b border-rule py-3.5 first:pt-0 sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-8">
+                <dt className="font-serif text-[1.25rem] leading-snug text-ink">{name}</dt>
+                <dd className="text-[1rem] leading-relaxed text-muted">{note}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+      ))}
+    </Page>
   );
 }

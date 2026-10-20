@@ -51,16 +51,16 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <nav aria-labelledby="toc-heading" className="sticky top-24">
-      <h2 id="toc-heading" className="text-[.7rem] font-semibold uppercase tracking-[.14em] text-faint">
+      <h2 id="toc-heading" className="font-serif text-[1.125rem] italic text-ink">
         Contents
       </h2>
-      <ul className="mt-3 space-y-1.5 border-l border-rule">
+      <ul className="mt-3 space-y-1.5 border-l border-rule font-sans">
         {headings.map((h) => (
           <li key={h.id} style={{ paddingLeft: h.depth === 3 ? '1.5rem' : '.75rem' }}>
             <a
               href={`#${h.id}`}
               aria-current={active === h.id ? 'location' : undefined}
-              className={`block border-l-2 -ml-[calc(.75rem+1px)] pl-3 text-[.8rem] leading-snug transition-colors ${
+              className={`block border-l -ml-[calc(.75rem+1px)] pl-3 text-[.85rem] leading-snug transition-colors ${
                 active === h.id
                   ? 'border-accent text-ink'
                   : 'border-transparent text-muted hover:text-ink'
@@ -89,7 +89,7 @@ export function CopyCodeButtons() {
       btn.setAttribute('aria-label', 'Copy code to clipboard');
       btn.setAttribute('aria-live', 'polite');
       btn.className =
-        'absolute right-2 top-2 min-h-11 min-w-11 rounded border border-rule bg-paper/95 px-2 py-1 text-[.7rem] text-muted opacity-100 transition-opacity hover:text-ink sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100';
+        'absolute right-2 top-2 min-h-11 min-w-11 border border-ink/30 bg-paper px-2 py-1 font-sans text-[.75rem] text-muted opacity-100 transition-opacity hover:text-ink sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100';
       btn.addEventListener('click', async () => {
         btn.disabled = true;
         btn.textContent = 'Copying';
@@ -132,13 +132,13 @@ export function ShareRow({ title, url }: { title: string; url: string }) {
   }[copyState];
 
   return (
-    <div className="flex flex-wrap items-center gap-3 text-sm">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-sans text-sm">
       <span className="text-faint">Share</span>
       <a
         href={`https://x.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
         target="_blank"
         rel="noreferrer"
-        className="text-muted underline decoration-rule underline-offset-4 hover:text-ink hover:decoration-accent"
+        className="text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent"
       >
         X
       </a>
@@ -146,7 +146,7 @@ export function ShareRow({ title, url }: { title: string; url: string }) {
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
         target="_blank"
         rel="noreferrer"
-        className="text-muted underline decoration-rule underline-offset-4 hover:text-ink hover:decoration-accent"
+        className="text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent"
       >
         LinkedIn
       </a>
@@ -155,7 +155,7 @@ export function ShareRow({ title, url }: { title: string; url: string }) {
         onClick={copyLink}
         disabled={copyState === 'copying'}
         aria-live="polite"
-        className="text-muted underline decoration-rule underline-offset-4 hover:text-ink hover:decoration-accent"
+        className="text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-accent"
       >
         {copyLabel}
       </button>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { site } from '@/lib/site';
+import { Page, PageHead, ledgerGrid } from '@/components/Ledger';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -10,13 +11,20 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-wide px-5 sm:px-8">
-      <div className="max-w-reading py-16">
-        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl leading-[1.1]">
-          I am a builder. My authority is the repository, not the title.
-        </h1>
-
-        <div className="prose-editorial mt-10">
+    <Page>
+      <PageHead
+        title={<>I am a builder. <em>My authority is the repository, not the title.</em></>}
+        margin={
+          <ul className="space-y-1">
+            <li className="text-ink">{site.fullName}</li>
+            <li>B.Tech AI &amp; ML, July 2027</li>
+            <li>Visakhapatnam, India</li>
+          </ul>
+        }
+      />
+      <div className={`${ledgerGrid} border-t-2 border-ink pt-10`}>
+        <div aria-hidden />
+        <div className="prose-editorial max-w-reading [&>h2:first-child]:mt-0">
           <p>
             I am {site.fullName}. I finish a B.Tech in Artificial Intelligence and Machine
             Learning in July 2027.
@@ -109,6 +117,6 @@ export default function About() {
           </ul>
         </div>
       </div>
-    </div>
+    </Page>
   );
 }

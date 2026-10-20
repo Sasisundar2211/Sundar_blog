@@ -1,41 +1,79 @@
 import Link from 'next/link';
 import { site } from '@/lib/site';
+import { ExternalIcon } from './Icons';
 
+const pages = [
+  ['/projects', 'Projects'],
+  ['/writing', 'Writing'],
+  ['/notes', 'Notes'],
+  ['/about', 'About'],
+  ['/now', 'Now'],
+  ['/uses', 'Uses'],
+  ['/work', 'Work with me'],
+  ['/contact', 'Contact'],
+] as const;
+
+const elsewhere = [
+  [site.github, 'GitHub'],
+  [site.linkedin, 'LinkedIn'],
+  [site.x, 'X'],
+] as const;
+
+/** The colophon. Printed in reverse: ink ground, paper type. */
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-rule">
-      <div className="mx-auto max-w-wide px-5 py-12 sm:px-8">
-        <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
-          <div className="max-w-sm">
-            <p className="font-display text-[1.05rem] font-semibold text-ink">Every claim here links to the code.</p>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              {site.thesis}
-            </p>
+    <footer className="mt-12 bg-ink text-paper">
+      <div className="mx-auto max-w-wide px-5 pb-10 pt-16 sm:px-8 sm:pt-24">
+        <div className="grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14">
+          <p className="font-sans text-sm leading-relaxed text-paper/65">
+            I reply to every email about a role or a project.
+          </p>
+          <div className="min-w-0">
+            <h2 className="max-w-[18ch] font-serif text-[clamp(2rem,4.6vw,3.75rem)] font-normal leading-[1.05] tracking-[-0.025em]">
+              Hiring for 2027, or need software <em>built?</em>
+            </h2>
             <a
-              href="/rss.xml"
-              className="mt-4 inline-block text-sm text-muted underline decoration-rule underline-offset-4 hover:text-ink hover:decoration-accent"
+              href={`mailto:${site.email}`}
+              className="mt-8 inline-block break-all font-serif text-[clamp(1.25rem,2.6vw,2rem)] italic text-paper underline decoration-accent decoration-2 underline-offset-[8px] transition-colors hover:text-accent"
             >
-              Subscribe by RSS
+              {site.email}
             </a>
           </div>
-
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm sm:gap-x-16">
-            <Link href="/writing" className="text-muted hover:text-ink">Writing</Link>
-            <a href={site.github} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">GitHub</a>
-            <Link href="/projects" className="text-muted hover:text-ink">Projects</Link>
-            <a href={site.linkedin} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">LinkedIn</a>
-            <Link href="/notes" className="text-muted hover:text-ink">Notes</Link>
-            <a href={`mailto:${site.email}`} className="text-muted hover:text-ink">Email</a>
-            <Link href="/about" className="text-muted hover:text-ink">About</Link>
-            <Link href="/uses" className="text-muted hover:text-ink">Uses</Link>
-            <Link href="/work" className="text-muted hover:text-ink">Work with me</Link>
-            <a href={site.x} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">X</a>
-            <Link href="/now" className="text-muted hover:text-ink">Now</Link>
-            <Link href="/contact" className="text-muted hover:text-ink">Contact</Link>
-          </nav>
         </div>
 
-        <p className="mt-12 border-t border-rule pt-6 text-xs text-faint">
+        <div className="mt-20 grid gap-10 border-t border-paper/25 pt-8 font-sans text-sm lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14">
+          <p className="leading-relaxed text-paper/65">
+            Every claim here links to the code.
+            <span className="mt-2 block">{site.thesis}</span>
+          </p>
+          <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
+            <nav aria-label="Footer">
+              <ul className="grid grid-cols-2 gap-x-10 gap-y-2 sm:grid-cols-4">
+                {pages.map(([href, label]) => (
+                  <li key={href}>
+                    <Link href={href} className="text-paper/80 transition-colors hover:text-paper hover:underline hover:decoration-accent hover:decoration-2">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <ul className="flex gap-x-6 sm:flex-col sm:gap-y-2">
+              {elsewhere.map(([href, label]) => (
+                <li key={label}>
+                  <a href={href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-paper/80 transition-colors hover:text-paper">
+                    {label} <ExternalIcon />
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a href="/rss.xml" className="text-paper/80 transition-colors hover:text-paper">RSS</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <p className="mt-12 font-sans text-xs text-paper/55">
           © {new Date().getFullYear()} {site.fullName} · {site.location}
         </p>
       </div>

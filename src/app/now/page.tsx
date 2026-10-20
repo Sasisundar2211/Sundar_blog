@@ -6,16 +6,17 @@ export const metadata: Metadata = {
   alternates: { canonical: '/now' },
 };
 
+import { Page, PageHead, ledgerGrid } from '@/components/Ledger';
+
 const updated = '2 October 2026';
 
 export default function Now() {
   return (
-    <div className="mx-auto max-w-wide px-5 sm:px-8">
-      <div className="max-w-reading py-16">
-        <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">What I am doing this month</h1>
-        <p className="mt-3 text-sm text-faint">Last updated {updated}</p>
-
-        <div className="prose-editorial mt-10">
+    <Page>
+      <PageHead title="What I am doing this month" margin={<p>Last updated {updated}</p>} />
+      <div className={`${ledgerGrid} border-t-2 border-ink pt-10`}>
+        <div aria-hidden />
+        <div className="prose-editorial max-w-reading [&>h2:first-child]:mt-0">
           <h2>Running</h2>
           <p>
             Finance PSU Guide. A live client platform since July 2026. Improving the protected
@@ -55,6 +56,6 @@ export default function Now() {
           </p>
         </div>
       </div>
-    </div>
+    </Page>
   );
 }

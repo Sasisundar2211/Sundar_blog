@@ -26,28 +26,26 @@ export function FilterableList({
     });
   }, [docs, q, cat]);
 
+  const filter = (active: boolean) =>
+    `py-1 transition-colors underline-offset-[6px] ${
+      active ? 'text-ink underline decoration-accent decoration-2' : 'text-muted hover:text-ink'
+    }`;
+
   return (
     <div>
-      <div className="flex flex-col gap-4 border-b border-rule pb-5 sm:flex-row sm:items-center sm:justify-between">
-        <label className="relative block w-full sm:max-w-xs">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <label className="block w-full lg:max-w-sm">
           <span className="sr-only">Search writing</span>
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search titles, tags, topics…"
-            className="w-full border border-rule bg-transparent px-3 py-2 text-sm text-ink placeholder:text-faint focus:border-accent focus:outline-none"
+            placeholder="Search titles, tags, topics"
+            className="w-full border-0 border-b-2 border-ink bg-transparent px-0 pb-2 font-serif text-[1.375rem] text-ink placeholder:italic placeholder:text-faint focus:border-accent focus:outline-none focus:ring-0"
           />
         </label>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setCat(null)}
-            aria-pressed={cat === null}
-            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-              cat === null ? 'border-ink bg-ink text-paper' : 'border-rule text-muted hover:text-ink'
-            }`}
-          >
+        <div className="flex flex-wrap gap-x-6 gap-y-2 font-sans text-sm" role="group" aria-label="Filter by category">
+          <button type="button" onClick={() => setCat(null)} aria-pressed={cat === null} className={filter(cat === null)}>
             All
           </button>
           {categories.map(([name, count]) => (
@@ -56,24 +54,22 @@ export function FilterableList({
               type="button"
               onClick={() => setCat(name === cat ? null : name)}
               aria-pressed={cat === name}
-              className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                cat === name ? 'border-ink bg-ink text-paper' : 'border-rule text-muted hover:text-ink'
-              }`}
+              className={filter(cat === name)}
             >
-              {name} <span className="opacity-60">{count}</span>
+              {name}<sup className="ml-0.5 tabular-nums text-faint">{count}</sup>
             </button>
           ))}
         </div>
       </div>
 
-      <p className="mt-5 text-xs text-faint" role="status" aria-live="polite">
+      <p className="mt-8 border-b border-ink pb-2 font-sans text-sm text-faint" role="status" aria-live="polite">
         {results.length} {results.length === 1 ? 'piece' : 'pieces'}
       </p>
 
-      <div className="mt-2">
+      <div>
         {results.map((d) => <ArticleCard key={d.slug} doc={d} />)}
         {results.length === 0 && (
-          <p className="py-16 text-center text-sm text-muted">
+          <p className="py-16 font-serif text-[1.25rem] italic text-muted">
             Nothing matches that yet. {tags.length > 0 && `Try: ${tags.slice(0, 4).map((t) => t[0]).join(', ')}.`}
           </p>
         )}

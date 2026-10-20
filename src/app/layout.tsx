@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { IBM_Plex_Mono, Newsreader, Schibsted_Grotesk } from 'next/font/google';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const sans = Geist({ subsets: ['latin'], display: 'swap', variable: '--font-sans' });
-const mono = Geist_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-mono' });
+const serif = Newsreader({
+  subsets: ['latin'], display: 'swap', variable: '--font-serif',
+  style: ['normal', 'italic'], axes: ['opsz'],
+});
+const sans = Schibsted_Grotesk({ subsets: ['latin'], display: 'swap', variable: '--font-sans' });
+const mono = IBM_Plex_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-mono', weight: ['400', '500'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -42,7 +46,7 @@ const personLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"

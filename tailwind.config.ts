@@ -5,7 +5,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        display: ['var(--font-serif)', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
@@ -18,7 +19,8 @@ export default {
         rule: 'rgb(var(--rule) / <alpha-value>)',
         accent: 'rgb(var(--accent) / <alpha-value>)',
       },
-      maxWidth: { reading: '68ch', wide: '76rem' },
+      maxWidth: { reading: '66ch', wide: '80rem' },
+      transitionTimingFunction: { out: 'cubic-bezier(.16,1,.3,1)' },
     },
   },
   plugins: [],

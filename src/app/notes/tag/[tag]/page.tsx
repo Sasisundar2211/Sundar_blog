@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAll, allTags, slugify } from '@/lib/content';
+import Link from 'next/link';
 import { ArticleCard } from '@/components/Cards';
+import { Page, PageHead } from '@/components/Ledger';
 
 export function generateStaticParams() {
   return allTags('notes').map(([name]) => ({ tag: slugify(name) }));
@@ -22,12 +24,17 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
   const docs = getAll('notes').filter((d) => d.frontmatter.tags.some((t) => slugify(t) === tag));
 
   return (
-    <div className="mx-auto max-w-wide px-5 sm:px-8">
-      <header className="border-b border-rule py-14">
-                <h1 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">Tagged: {name}</h1>
-        <p className="mt-3 text-sm text-muted">{docs.length} {docs.length === 1 ? 'piece' : 'pieces'}</p>
-      </header>
-      <div className="py-8">{docs.map((d) => <ArticleCard key={d.slug} doc={d} />)}</div>
-    </div>
+    <Page>
+      <PageHead
+        title={<>Tagged <em>{name}</em></>}
+        margin={
+          <p>
+            <Link href="/notes" className="ln">Notes</Link>
+            <span className="block">{docs.length} {docs.length === 1 ? 'piece' : 'pieces'}</span>
+          </p>
+        }
+      />
+      <div className="border-t-2 border-ink">{docs.map((d) => <ArticleCard key={d.slug} doc={d} />)}</div>
+    </Page>
   );
 }
