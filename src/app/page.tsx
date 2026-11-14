@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { getAll } from '@/lib/content';
 import { featuredProjects } from '@/lib/projects';
-import { ArticleRow, ProjectRow, SectionHeading } from '@/components/Cards';
-import { site } from '@/lib/site';
+import { ArrowList, ArticleRow, ProjectRow, SectionHeading } from '@/components/Cards';
 import { ExternalIcon } from '@/components/Icons';
+import { site } from '@/lib/site';
 
 export default function Home() {
   const posts = getAll('posts').slice(0, 3);
@@ -12,12 +12,17 @@ export default function Home() {
     <div className="mx-auto max-w-wide px-5 sm:px-8">
       {/* Hero: who, what, where to go next. Readable in two seconds. */}
       <section className="pb-20 pt-16 sm:pb-24 sm:pt-24">
-        <h1 className="max-w-3xl text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
-          I build AI evaluation tools and client software.
+        <h1 className="max-w-4xl text-4xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl">
+          I command AI agents in the terminal to ship client software and automations.
         </h1>
-        <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">
-          I&rsquo;m {site.name}, a final-year AI &amp; ML student (Class of 2027). Every project
-          here links to its code.
+        <div className="mt-6 max-w-[38rem] space-y-1 text-lg leading-relaxed text-muted">
+          <p>I am {site.fullName}.</p>
+          <p>
+            Final-year B.Tech AIML student at {site.college} (Class of 2027).
+          </p>
+        </div>
+        <p className="mt-5 max-w-[38rem] text-lg leading-relaxed text-ink">
+          The human makes the architectural decisions. AI handles the execution.
         </p>
         <div className="mt-9 flex flex-wrap gap-3">
           <Link
@@ -54,11 +59,20 @@ export default function Home() {
       {/* Contact */}
       <section className="border-t border-rule py-14">
         <div className="rounded-2xl bg-raised px-6 py-10 sm:px-10">
-          <h2 className="text-2xl font-semibold tracking-[-0.02em]">Hiring for 2027, or need software built?</h2>
+          <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+            Hiring for 2027 AI roles, or need custom software built?
+          </h2>
           <p className="mt-3 max-w-reading text-muted">
-            I reply to every email about a role or a project.
+            I reply to every email about 2027 roles, client builds, or command-line workflows.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+          <ArrowList
+            className="mt-5 max-w-reading text-[.95rem] text-muted"
+            items={[
+              <><span className="font-medium text-ink">Target roles:</span> Applied AI Engineer, Forward Deployed Engineer, Solutions Architect, Software Engineer</>,
+              <><span className="font-medium text-ink">Publishing hub:</span> CommandBuild (launching December 1, 2026 on LinkedIn)</>,
+            ]}
+          />
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
             <a
               href={`mailto:${site.email}`}
               className="rounded-lg bg-ink px-5 py-2.5 font-medium text-paper transition hover:opacity-90 active:scale-[0.98]"
@@ -67,6 +81,7 @@ export default function Home() {
             </a>
             <a href={site.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">GitHub <ExternalIcon /></a>
             <a href={site.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">LinkedIn <ExternalIcon /></a>
+            <a href={site.x} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">X <ExternalIcon /></a>
           </div>
         </div>
       </section>

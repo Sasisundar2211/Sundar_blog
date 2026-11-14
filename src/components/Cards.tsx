@@ -101,3 +101,17 @@ export function SectionHeading({
     </div>
   );
 }
+
+/** The site's "->" list: causality and pipelines, one arrow per line. */
+export function ArrowList({ items, className = '' }: { items: React.ReactNode[]; className?: string }) {
+  return (
+    <ul className={`space-y-2.5 ${className}`}>
+      {items.map((item, i) => (
+        <li key={i} className="grid grid-cols-[1.25rem_minmax(0,1fr)] gap-x-1 leading-relaxed">
+          <span className="pt-[.2em] text-accent"><ForwardIcon /></span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}

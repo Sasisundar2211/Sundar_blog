@@ -31,13 +31,13 @@ const personLd = {
   email: site.email,
   sameAs: [site.github, site.linkedin, site.x],
   alternateName: site.fullName,
-  jobTitle: 'Software Engineer, AI Systems',
+  jobTitle: 'B.Tech AIML student',
   description: site.description,
   knowsAbout: [
-    'AI engineering', 'Model evaluation', 'AI verification', 'Backend engineering',
-    'Developer tools', 'MLOps', 'Python', 'FastAPI', 'Next.js', 'Payments integration',
+    'AI agents', 'Claude Code', 'Command-line workflows', 'n8n', 'API automation',
+    'Next.js', 'Supabase', 'Razorpay', 'Python',
   ],
-  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Potti Sreeramulu Engineering College' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: site.college },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

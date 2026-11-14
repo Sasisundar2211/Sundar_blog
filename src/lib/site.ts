@@ -1,11 +1,12 @@
 export const site = {
   name: 'Sasi Sundar',
-  fullName: 'B. S. V. Sasi Sundar',
+  fullName: 'Bobbili Somanadh Vasudevara Sasi Sundar',
+  college: 'PSCMR College of Engineering and Technology',
   url: 'https://sasisundar.me',
-  title: 'Sasi Sundar | AI-native builder shipping client platforms and evaluation tooling',
+  title: 'Sasi Sundar | I command AI agents in the terminal to ship client software and automations',
   description:
-    'Builder. Final-year B.Tech in AI & Machine Learning, Class of 2027. I direct AI coding agents to ship client platforms and AI evaluation tooling. Every claim on this site links to the code.',
-  tagline: 'AI-native builder · B.Tech AI & ML · Class of 2027',
+    'I command AI agents in the terminal to ship client software and automations. Final-year B.Tech AIML student at PSCMR College of Engineering and Technology, Class of 2027.',
+  tagline: 'Final-year B.Tech AIML student · Class of 2027',
   thesis: 'The human is the architectural decision-maker. AI is the execution team.',
   email: 'sasisundhar2211@gmail.com',
   github: 'https://github.com/Sasisundar2211',
