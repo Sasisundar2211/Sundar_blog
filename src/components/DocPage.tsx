@@ -9,6 +9,7 @@ import { site } from '@/lib/site';
 import { CategoryBadge, Tag } from './Cards';
 import { CopyCodeButtons, ReadingProgress, ShareRow, TableOfContents } from './Article';
 import { BackIcon, ExternalIcon, ForwardIcon } from './Icons';
+import { ToolkitBox } from './Conversion';
 
 const mdxOptions = {
   mdxOptions: {
@@ -147,6 +148,12 @@ export function DocPage({ doc }: { doc: Doc }) {
                   {fm.sourceUrl.includes('/pulse/') ? 'LinkedIn article' : 'LinkedIn'} <ExternalIcon />
                 </a>
               </p>
+            )}
+
+            {doc.kind === 'posts' && (
+              <div className="mt-10 max-w-reading">
+                <ToolkitBox />
+              </div>
             )}
 
             <div className="mt-14 max-w-reading border-t border-rule pt-6">

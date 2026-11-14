@@ -1,22 +1,14 @@
 import Link from 'next/link';
 import { site } from '@/lib/site';
+import { FooterOptin } from './Conversion';
 
 export function Footer() {
   return (
     <footer className="mt-24 border-t border-rule">
       <div className="mx-auto max-w-wide px-5 py-12 sm:px-8">
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
-          <div className="max-w-sm">
-            <p className="font-display text-[1.05rem] font-semibold text-ink">Every claim here links to the code.</p>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              {site.thesis}
-            </p>
-            <a
-              href="/rss.xml"
-              className="mt-4 inline-block text-sm text-muted underline decoration-rule underline-offset-4 hover:text-ink hover:decoration-accent"
-            >
-              Subscribe by RSS
-            </a>
+          <div className="max-w-md">
+            <FooterOptin />
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm sm:gap-x-16">
@@ -32,6 +24,7 @@ export function Footer() {
             <a href={site.x} target="_blank" rel="noreferrer" className="text-muted hover:text-ink">X</a>
             <Link href="/now" className="text-muted hover:text-ink">Now</Link>
             <Link href="/contact" className="text-muted hover:text-ink">Contact</Link>
+            <a href="/rss.xml" className="text-muted hover:text-ink">RSS</a>
           </nav>
         </div>
 

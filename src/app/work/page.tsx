@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowList } from '@/components/Cards';
-import { site } from '@/lib/site';
+import { IntakeCard } from '@/components/Conversion';
 
 export const metadata: Metadata = {
   title: 'Work with me',
@@ -39,17 +39,8 @@ export default function Work() {
           (₹30,000 solo client build, currently 70% complete).
         </p>
 
-        <div className="mt-12 rounded-2xl bg-raised p-8">
-          <p className="text-[1.0625rem] leading-relaxed text-ink">
-            Email{' '}
-            <a
-              href={`mailto:${site.email}?subject=Project%20enquiry`}
-              className="font-medium underline decoration-accent/50 underline-offset-4 hover:decoration-accent"
-            >
-              {site.email}
-            </a>{' '}
-            with your bottleneck, timeline, and budget.
-          </p>
+        <div className="mt-12">
+          <IntakeCard />
         </div>
       </div>
     </div>

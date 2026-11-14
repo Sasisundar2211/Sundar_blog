@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { getAll } from '@/lib/content';
 import { featuredProjects } from '@/lib/projects';
-import { ArrowList, ArticleRow, ProjectRow, SectionHeading } from '@/components/Cards';
+import { ArticleRow, ProjectRow, SectionHeading } from '@/components/Cards';
+import { AuditStrip, GuideBanner, IntakeCard } from '@/components/Conversion';
 import { ExternalIcon, ForwardIcon } from '@/components/Icons';
 import { site } from '@/lib/site';
 
@@ -52,12 +53,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Free audit: a zero-risk first step */}
+      <section className="pb-14">
+        <AuditStrip />
+      </section>
+
       {/* Work */}
       <section className="border-t border-rule py-14">
         <SectionHeading title="Selected work" href="/projects" hrefLabel="All projects" />
         <ul className="divide-y divide-rule">
           {featuredProjects.map((p) => <ProjectRow key={p.slug} project={p} />)}
         </ul>
+      </section>
+
+      {/* Lead magnet */}
+      <section className="border-t border-rule py-14">
+        <GuideBanner />
       </section>
 
       {/* Writing */}
@@ -70,31 +81,12 @@ export default function Home() {
 
       {/* Contact */}
       <section className="border-t border-rule py-14">
-        <div className="rounded-2xl bg-raised px-6 py-10 sm:px-10">
-          <h2 className="text-2xl font-semibold tracking-[-0.02em]">
-            Hiring for 2027 AI roles, or need custom software built?
-          </h2>
-          <p className="mt-3 max-w-reading text-muted">
-            I reply to every email about 2027 roles, client builds, or command-line workflows.
-          </p>
-          <ArrowList
-            className="mt-5 max-w-reading text-[.95rem] text-muted"
-            items={[
-              <><span className="font-medium text-ink">Target roles:</span> Applied AI Engineer, Forward Deployed Engineer, Solutions Architect, Software Engineer</>,
-              <><span className="font-medium text-ink">Publishing hub:</span> CommandBuild (launching December 1, 2026 on LinkedIn)</>,
-            ]}
-          />
-          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-            <a
-              href={`mailto:${site.email}`}
-              className="rounded-lg bg-ink px-5 py-2.5 font-medium text-paper transition hover:opacity-90 active:scale-[0.98]"
-            >
-              Email me
-            </a>
-            <a href={site.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">GitHub <ExternalIcon /></a>
-            <a href={site.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">LinkedIn <ExternalIcon /></a>
-            <a href={site.x} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">X <ExternalIcon /></a>
-          </div>
+        <IntakeCard />
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted">
+          <span>Target roles: Applied AI Engineer, Forward Deployed Engineer, Solutions Architect, Software Engineer.</span>
+          <a href={site.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-ink">GitHub <ExternalIcon /></a>
+          <a href={site.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-ink">LinkedIn <ExternalIcon /></a>
+          <a href={site.x} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-ink">X <ExternalIcon /></a>
         </div>
       </section>
     </div>
