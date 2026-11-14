@@ -34,19 +34,21 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <div className="flex items-center gap-3 text-xs">
             <Link href="/projects" className="text-accent hover:underline">Projects</Link>
             <span className="text-faint" aria-hidden>/</span>
-            <span className="text-muted">{p.status}</span>
+            <span className="text-muted">{p.label ?? p.status}</span>
           </div>
           <h1 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
             {p.name}
           </h1>
           <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">{p.summary}</p>
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            {p.repo && (
             <a href={p.repo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">
               Source <ExternalIcon />
             </a>
+            )}
             {p.demo && (
               <a href={p.demo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-muted hover:text-ink">
-                Live <ExternalIcon />
+                Website <ExternalIcon />
               </a>
             )}
           </div>
@@ -74,6 +76,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </ul>
           </section>
 
+          {p.decisions.length > 0 && (
           <section>
             <h2 className="font-display text-[1.4rem] font-semibold">Engineering decisions</h2>
             <div className="mt-4 divide-y divide-rule">
@@ -85,13 +88,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
           </section>
+          )}
 
+          {p.lessons.length > 0 && (
           <section>
             <h2 className="font-display text-[1.4rem] font-semibold">What I learned</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-[1.0625rem] leading-relaxed text-ink/90 marker:text-accent">
               {p.lessons.map((l, i) => <li key={i}>{l}</li>)}
             </ul>
           </section>
+          )}
 
           <section>
             <h2 className="font-display text-[1.4rem] font-semibold">Stack</h2>

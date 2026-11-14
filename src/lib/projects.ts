@@ -1,12 +1,12 @@
 /**
- * Every field below is verified against the public repository as of 17 Aug 2026.
- * Nothing here is aspirational. If a number cannot be reproduced by cloning the
- * repo and running the stated command, it does not belong in this file.
+ * Every field below comes from the owner's verified profile (updated 14 Nov 2026)
+ * or the public repository. Nothing here is aspirational: status, completion and
+ * cost are stated as they are, not as they will be.
  */
 export interface Project {
   slug: string;
   name: string;
-  status: 'Active' | 'Complete' | 'Archived';
+  status: 'Active' | 'In development' | 'Paused' | 'Complete' | 'Archived';
   /** One line for list rows. */
   tagline: string;
   summary: string;
@@ -16,7 +16,8 @@ export interface Project {
   lessons: string[];
   stack: string[];
   facts: { label: string; value: string }[];
-  repo: string;
+  /** Omitted when the code is not public. */
+  repo?: string;
   demo?: string;
   featured?: boolean;
   /** Card label. Client builds render it in the accent colour. */
@@ -27,14 +28,14 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'finance-psu-guide',
-    tagline: 'Live exam-prep platform for a client. Protected reader, payments, mock tests.',
+    tagline: '₹30,000 solo client exam-prep platform. HTML5 Canvas view-only PDF protection, timed mock tests, Razorpay webhooks.',
     name: 'Finance PSU Guide',
-    status: 'Active',
+    status: 'In development',
     featured: true,
     client: true,
-    label: 'Client build · Live',
+    label: 'Client build · In development (65-70%)',
     summary:
-      'A commercial exam-preparation platform for PSU Finance Officer exams (AAI, Coal India, NTPC, BHEL). A book-style study library, a view-only PDF reader with per-user watermarks, Razorpay checkout with webhook provisioning, and a timed mock-test engine.',
+      'A ₹30,000 solo client build: an exam-preparation platform for PSU Finance Officer exams (AAI, Coal India, NTPC, BHEL). A book-style study library, a view-only PDF reader with per-user watermarks, Razorpay checkout with webhook provisioning, and a timed mock-test engine. In development at 65-70% completion, not yet delivered, with no live paying users.',
     why:
       'My first client build, started July 2026. The client needed students to read paid study material without being able to download it. Off-the-shelf LMS products either expose the raw PDF or lock the client into a subscription they did not want. The real problem was narrower: serve a document, prove who opened it, and grant access only after a verified payment.',
     architecture: [
@@ -64,27 +65,28 @@ export const projects: Project[] = [
       },
     ],
     lessons: [
-      'Clients do not pay for code complexity. They pay for zero manual provisioning and zero leaked files.',
       'Every payment flow needs one place that decides whether money arrived. Two places means a support ticket.',
       'Naming the limit of a protection scheme up front builds more trust with a client than overselling it.',
     ],
     stack: ['Next.js', 'TypeScript', 'pdfjs-dist', 'Razorpay', 'Webhooks', 'Tailwind CSS'],
     facts: [
-      { label: 'Engagement', value: 'Commercial client' },
+      { label: 'Engagement', value: '₹30,000 solo client build' },
+      { label: 'Completion', value: '65-70%' },
       { label: 'Started', value: 'July 2026' },
       { label: 'Exams covered', value: 'AAI, Coal India, NTPC, BHEL' },
       { label: 'Study books', value: '5' },
       { label: 'Access tiers', value: '3, 6, 12 months' },
-      { label: 'Status', value: 'Live' },
+      { label: 'Status', value: 'In development, not yet delivered' },
     ],
     repo: 'https://github.com/Sasisundar2211/finance_psu_guide',
   },
   {
     slug: 'vouqis-verify',
-    tagline: 'CLI and GitHub Action that checks AI changes in pull requests.',
+    tagline: 'Built at ₹0 cost. Python CLI and GitHub Action that checks AI-generated code changes in pull requests.',
     name: 'Vouqis Verify',
-    status: 'Active',
+    status: 'Paused',
     featured: true,
+    label: 'Open source · Paused',
     summary:
       'A CLI and composite GitHub Action that verifies AI-related changes inside a pull request. It detects changes on configured AI paths, runs the evaluation command the repository already has, and posts a structured review report back to the PR.',
     why:
@@ -121,6 +123,8 @@ export const projects: Project[] = [
     ],
     stack: ['Python', 'Typer', 'pytest', 'GitHub Actions', 'PyPI', 'Next.js', 'TypeScript'],
     facts: [
+      { label: 'Status', value: 'Paused' },
+      { label: 'Build cost', value: '₹0' },
       { label: 'Commits', value: '12' },
       { label: 'Tests', value: '87 across 9 modules' },
       { label: 'Published versions', value: '0.1.1, 0.1.2' },
@@ -131,11 +135,36 @@ export const projects: Project[] = [
     demo: 'https://vouqis.tech',
   },
   {
+    slug: 'lead-enrichment-pipeline',
+    tagline: '4-node workflow: Google Custom Search, deduplicated LinkedIn URLs, verified emails into Google Sheets.',
+    name: 'n8n & API Lead Enrichment Pipeline',
+    status: 'Complete',
+    featured: true,
+    label: 'Automation · Reproducible',
+    summary:
+      'A 4-node n8n workflow that scrapes Google Custom Search results, deduplicates LinkedIn profile URLs, and enriches verified emails into Google Sheets.',
+    why:
+      'Building a lead list by hand means searching, copying profile links, removing repeats and looking up emails one at a time. Each of those steps is deterministic, so a workflow can run them in order with no manual data entry.',
+    architecture: [
+      'Search: the Google Custom Search API returns result pages for a query.',
+      'Deduplicate: repeated LinkedIn profile URLs are removed before enrichment.',
+      'Enrich: each unique profile is enriched with a verified email.',
+      'Store: enriched rows are written to Google Sheets.',
+    ],
+    decisions: [],
+    lessons: [],
+    stack: ['n8n', 'Google Custom Search API', 'Google Sheets'],
+    facts: [
+      { label: 'Nodes', value: '4' },
+      { label: 'Output', value: 'Google Sheets' },
+      { label: 'Status', value: 'Reproducible' },
+    ],
+  },
+  {
     slug: 'energy-star-regression',
     tagline: 'Regression pipeline. Interpretability found a bug the metrics missed.',
     name: 'NYC Energy Star Score Predictor',
     status: 'Complete',
-    featured: true,
     summary:
       'A regression pipeline over the NYC 2016 Energy Benchmarking dataset. Five model families compared under cross-validation, the winner tuned by randomised search, then interpreted with LIME and a surrogate tree.',
     why:
