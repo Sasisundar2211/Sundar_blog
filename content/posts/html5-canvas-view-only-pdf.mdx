@@ -1,0 +1,25 @@
+---
+title: "Building a View-Only PDF Reader on HTML5 Canvas Without Paid DRM"
+date: "2026-11-04"
+summary: "How I prevented direct PDF downloads on Finance PSU Guide using streaming proxies and pdfjs-dist."
+tags: ["Next.js", "Security", "Architecture", "Client Build"]
+---
+
+Standard web PDF embeds give users a direct download button by default.
+
+While building Finance PSU Guide (a ₹30,000 solo client exam-prep platform currently 70% complete), the core requirement was strict: students must read study books inside the browser without saving or distributing raw PDF files.
+
+Instead of paying for bloated third-party DRM tools, I built a three-layer browser viewer:
+
+-> Private Storage Isolation: Raw `.pdf` files sit in private storage with zero public URLs
+-> Authenticated Streaming Proxy: A Next.js API route verifies the user session and active enrollment before streaming byte chunks
+-> HTML5 Canvas Bitmap Rendering: `pdfjs-dist` renders vector pages directly onto an HTML5 `<canvas>` element instead of a native PDF frame
+
+To deter screen grabs and inspection, I added two client-side controls:
+
+-> A dynamic diagonal watermark stamping the logged-in student's email and phone number across every canvas page
+-> Event listeners blocking right-click context menus, `Ctrl+S`, `Ctrl+P`, and standard devtools shortcuts
+
+No browser-based viewer stops someone taking a photo with a second phone. 
+
+The goal is not theoretical perfection. The goal is removing one-click piracy while keeping page loads fast for paying students.

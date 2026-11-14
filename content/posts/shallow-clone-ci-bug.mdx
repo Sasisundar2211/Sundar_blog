@@ -1,0 +1,29 @@
+---
+title: "The Shallow Clone That Made My CI Tool Pass When It Could Not Run"
+date: "2026-10-18"
+summary: "How GitHub Actions shallow clones broke git diff checks in Vouqis Verify, and the one-line fix."
+tags: ["CI/CD", "GitHub Actions", "Vouqis Verify", "CLI"]
+---
+
+A CI tool that passes when it cannot inspect the code is worse than no CI at all.
+
+When I built Vouqis Verify (a ₹0 open-source CLI and GitHub Action for checking AI-generated code changes), the workflow turned green on every test pull request.
+
+The problem was simple. It was never actually reading the diff.
+
+Here is what broke inside GitHub Actions:
+
+-> `actions/checkout@v4` defaults to a shallow clone (`fetch-depth: 1`)
+-> A shallow clone pulls only the single latest commit
+-> Running `git diff origin/main...HEAD` fails because the base commit history does not exist locally
+-> My early error handler caught the non-zero exit code and exited cleanly as "no AI paths modified"
+
+The green checkmark was a false positive.
+
+Here is the deterministic fix:
+
+-> Set `fetch-depth: 0` inside the composite GitHub Action checkout step
+-> Fail loudly with exit code `1` if `git diff` cannot resolve the base ref
+-> Add a test case specifically simulating a shallow repository
+
+Silent failures kill developer trust fast. If your verification gate cannot read the input, it must fail closed.
