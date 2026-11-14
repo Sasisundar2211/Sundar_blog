@@ -8,6 +8,8 @@ export interface Frontmatter {
   title: string;
   deck?: string;
   description: string;
+  /** Alias some posts use instead of description. */
+  summary?: string;
   date: string;
   updated?: string;
   tags: string[];
@@ -45,6 +47,29 @@ export function countWords(md: string): number {
     .replace(/<[^>]+>/g, ' ')
     .split(/\s+/)
     .filter(Boolean).length;
+}
+
+/**
+ * Turn runs of lines that start with "-> " into an <Arrows> list, outside fenced
+ * code. Plain Markdown would merge those lines into a single paragraph.
+ */
+export function arrowLists(md: string): string {
+  const out: string[] = [];
+  let fenced = false;
+  let run: string[] = [];
+  const flush = () => {
+    if (run.length) out.push('', '<Arrows>', '', ...run.map((r) => `- ${r}`), '', '</Arrows>', '');
+    run = [];
+  };
+  for (const line of md.split('\n')) {
+    if (line.trim().startsWith('```')) fenced = !fenced;
+    const m = fenced ? null : /^->\s+(.*)$/.exec(line);
+    if (m) { run.push(m[1].trimEnd()); continue; }
+    flush();
+    out.push(line);
+  }
+  flush();
+  return out.join('\n');
 }
 
 /** Extract h2/h3 from markdown source, skipping fenced code. */

@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { formatDate, headings, neighbours, related, type Doc } from '@/lib/content';
+import { arrowLists } from '@/lib/format';
 import { site } from '@/lib/site';
 import { Tag } from './Cards';
 import { CopyCodeButtons, ReadingProgress, ShareRow, TableOfContents } from './Article';
@@ -47,7 +48,11 @@ function Evidence({ href, children }: { href: string; children: React.ReactNode 
   );
 }
 
-const components = { Callout, Evidence };
+function Arrows({ children }: { children: React.ReactNode }) {
+  return <div className="arrow-list">{children}</div>;
+}
+
+const components = { Callout, Evidence, Arrows };
 
 export function DocPage({ doc }: { doc: Doc }) {
   const toc = headings(doc.body);
@@ -126,7 +131,7 @@ export function DocPage({ doc }: { doc: Doc }) {
             </header>
 
             <div className="prose-editorial mt-10 max-w-reading">
-              <MDXRemote source={doc.body} options={mdxOptions} components={components} />
+              <MDXRemote source={arrowLists(doc.body)} options={mdxOptions} components={components} />
             </div>
             <CopyCodeButtons />
 

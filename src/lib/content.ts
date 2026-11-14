@@ -19,13 +19,17 @@ export function getAll(kind: Kind): Doc[] {
       const raw = fs.readFileSync(path.join(dir, file), 'utf8');
       const { data, content } = matter(raw);
       const words = countWords(content);
+      const fm = data as Frontmatter;
+      fm.tags ??= [];
+      fm.description ??= fm.summary ?? '';
+      fm.category ??= fm.tags[0] ?? 'Writing';
       return {
         slug: file.replace(/\.mdx$/, ''),
         kind,
         body: content,
         words,
         readingMinutes: Math.max(1, Math.round(words / 225)),
-        frontmatter: data as Frontmatter,
+        frontmatter: fm,
       };
     })
     .filter((d) => !d.frontmatter.draft)
