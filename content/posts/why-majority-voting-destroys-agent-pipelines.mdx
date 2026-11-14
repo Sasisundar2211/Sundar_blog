@@ -1,0 +1,20 @@
+---
+title: "Why Majority Voting Destroys Complex Agent Pipelines"
+date: "2026-10-13"
+category: "AI Engineering"
+summary: "Shared hallucinations look identical to consensus. Why deterministic verification beats simple voting across agent rollouts."
+sourceUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7515509269237211136/"
+---
+
+Consensus voting fails when agents tackle multi-step engineering workflows.
+
+Most teams run multiple agent rollouts and pick the majority answer. The flaw is simple: shared hallucinations look identical to true consensus in LLM samples, and unanimous agreement often conceals the exact same edge-case bug.
+
+Before adding more agents, build better verification loops:
+
+-> Spin up isolated execution sandboxes for parallel agent rollouts
+-> Isolate conflicting outputs with a targeted disagreement resolver
+-> Run deterministic unit tests and schema checks against live environmental feedback
+-> Stress-test unanimous outputs with an adversarial challenger before merging
+
+Generation is becoming abundant. Deterministic verification is the real competitive advantage.

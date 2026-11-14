@@ -1,0 +1,29 @@
+---
+title: "The Checkout Was Only Half the Build"
+date: "2026-10-31"
+category: "Build Notes"
+summary: "A payment confirmation does not give someone access. How I designed idempotent Razorpay fulfillment webhooks for Finance PSU Guide."
+sourceUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7522032102977146880/"
+---
+
+A payment confirmation does not give someone access.
+
+While building Finance PSU Guide (a solo client platform for PSU Finance exam preparation featuring timed MCQs, HTML5 Canvas document rendering, and dynamic watermarks), one of the most important problems showed up after the customer clicked Pay.
+
+Razorpay could confirm a transaction while the student still waited for course access. Without a reliable bridge between payment confirmation and product provisioning, a digital purchase falls back to manual onboarding.
+
+In my test measurements, automated provisioning ran in 1.8 seconds across 120 checkout runs, compared with an earlier 48-hour manual process. That sample measures those test runs, not a production SLA.
+
+To make paid access reliable, I separated the fulfillment flow into three responsibilities:
+
+-> Verify the payment event signature before accepting the payload
+-> Persist fulfillment state in the database so duplicate webhook deliveries never create duplicate entitlements
+-> Process access provisioning with retries and visible failure states
+
+Those are design requirements to test, not assumptions to trust.
+
+The acceptance test is straightforward: send the exact same valid webhook event ten times and verify that the customer receives exactly one entitlement, not ten.
+
+Build the feature, then test what happens when events repeat.
+
+[Inspect the Finance PSU Guide repository](https://github.com/Sasisundar2211/finance_psu_guide).

@@ -1,0 +1,21 @@
+---
+title: "Before I Tune the Agent, I Fix the Intake"
+date: "2026-04-02"
+category: "AI Engineering"
+summary: "Why AI agents fail in production when the input is broken, and what building FirmRunner taught me about systems over model scores."
+sourceUrl: "https://www.linkedin.com/pulse/my-ai-agent-failed-last-week-because-model-bad-we-had-sasi-sundar-rqntc/"
+---
+
+My AI agent failed not because the model was weak, but because the data entering the workflow was broken.
+
+In my third year of B.Tech AIML, I started building FirmRunner after watching accounting firms collect client records across WhatsApp messages, email threads, and printed forms that staff still retyped into spreadsheets by hand.
+
+Everyone around me was focused on training smarter models. In practice, companies do not lose money because a model scored 73% instead of 91%. They lose money when the intake breaks at step two and sends the wrong output to the wrong person.
+
+That is not an intelligence problem. It is a systems problem.
+
+A model with 98% accuracy still fails completely when the input it receives is malformed or incomplete. Automating the output while ignoring broken input only accelerates errors.
+
+Before I tune a prompt or swap a model, I ask one question: where does the information first become unreliable?
+
+Fix the intake first, validate the schema at entry, and the downstream reasoning becomes dramatically simpler.

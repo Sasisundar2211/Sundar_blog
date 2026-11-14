@@ -1,0 +1,23 @@
+---
+title: "HTTP 200 Does Not Mean Your AI Agent Worked"
+date: "2026-05-31"
+category: "Build Notes"
+summary: "What auditing 50 public MCP servers taught me about silent JSON-RPC failures, stdout pollution, and gating CI pipelines."
+sourceUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7466813789804437505/"
+---
+
+An MCP server can return HTTP 200 OK, keep every uptime dashboard green, and still accomplish nothing.
+
+I learned this after spending four hours debugging an agent workflow where three tool calls logged "success" and one of them had returned an empty content array. Standard web monitoring checks transport availability, not JSON-RPC payload integrity.
+
+When I audited 50 public MCP servers using the Vouqis CLI, three failure modes stood out:
+
+-> 82% failed full JSON-RPC 2.0 compliance checks
+-> 42% suffered uncaught timeouts under concurrent load
+-> 35% returned silent null responses that triggered agent hallucination loops
+
+In local stdio servers, a single stray `console.log()` or `print()` statement writes plain text to `stdout`, corrupting the JSON-RPC stream without throwing a visible crash.
+
+Here is the math most teams miss: a 5-tool agent chain where each server runs at 71% reliability succeeds end-to-end only 18% of the time.
+
+Treat tool contracts like unit tests. Keep diagnostic logs on `stderr`, validate response schemas at the proxy boundary, and block deployments when reliability drops below threshold.

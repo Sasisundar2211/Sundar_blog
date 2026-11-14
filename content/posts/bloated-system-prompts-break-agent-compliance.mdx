@@ -1,0 +1,21 @@
+---
+title: "Your Bloated System Prompts Are Silently Breaking Agent Compliance"
+date: "2026-10-15"
+category: "AI Engineering"
+summary: "Why appending hundreds of rules to CLAUDE.md or system prompts degrades reasoning, and how to enforce strict context budgets."
+sourceUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7516237711025016832/"
+---
+
+Adding more instructions to an agent prompt actively degrades compliance on existing rules.
+
+Every time a coding agent makes a mistake, the default reflex is to append another rule to the system prompt or `CLAUDE.md` file. Over a few weeks, instruction files bloat into hundreds of competing directives.
+
+Teams assume instruction adherence scales linearly. In reality, every always-loaded rule and unused tool schema taxes the model's finite attention budget. In one benchmark breakdown, loading 3,200 instructions collapsed Sonnet rule compliance from 91% down to 5%.
+
+To keep agents sharp across multi-step sessions, manage context like memory allocation:
+
+-> Audit always-loaded instruction files and evict redundant rules
+-> Bound total active prompt tokens under a strict attention budget
+-> Route edge-case instructions through dynamic, just-in-time `SKILL.md` retrieval instead of preloading everything upfront
+
+Stop treating system prompts like infinite rule dumps. Engineer tight context budgets.
