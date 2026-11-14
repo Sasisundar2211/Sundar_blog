@@ -15,9 +15,18 @@ export function Tag({ name, kind = 'posts' }: { name: string; kind?: 'posts' | '
   );
 }
 
+export function CategoryBadge({ name }: { name: string }) {
+  return (
+    <span className="inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium text-accent">
+      {name}
+    </span>
+  );
+}
+
 export function Meta({ doc }: { doc: Doc }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-faint">
+      {doc.kind === 'posts' && <CategoryBadge name={doc.frontmatter.category} />}
       <time dateTime={doc.frontmatter.date}>{formatDate(doc.frontmatter.date)}</time>
       <span aria-hidden>·</span>
       <span>{doc.readingMinutes} min read</span>

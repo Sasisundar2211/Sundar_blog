@@ -18,6 +18,8 @@ export interface Frontmatter {
   draft?: boolean;
   repo?: string;
   evidence?: string;
+  /** The original LinkedIn post or article this entry was published as. */
+  sourceUrl?: string;
 }
 
 export interface Doc {

@@ -6,9 +6,9 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import { formatDate, headings, neighbours, related, type Doc } from '@/lib/content';
 import { arrowLists } from '@/lib/format';
 import { site } from '@/lib/site';
-import { Tag } from './Cards';
+import { CategoryBadge, Tag } from './Cards';
 import { CopyCodeButtons, ReadingProgress, ShareRow, TableOfContents } from './Article';
-import { BackIcon, ForwardIcon } from './Icons';
+import { BackIcon, ExternalIcon, ForwardIcon } from './Icons';
 
 const mdxOptions = {
   mdxOptions: {
@@ -95,7 +95,7 @@ export function DocPage({ doc }: { doc: Doc }) {
                   {doc.kind === 'posts' ? 'Writing' : 'Notes'}
                 </Link>
                 <span aria-hidden>/</span>
-                <span className="text-muted">{fm.category}</span>
+                <CategoryBadge name={fm.category} />
               </div>
 
               <h1 className="mt-4 max-w-reading font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.02em] sm:text-[2.6rem]">
@@ -135,11 +135,27 @@ export function DocPage({ doc }: { doc: Doc }) {
             </div>
             <CopyCodeButtons />
 
+            {fm.sourceUrl && (
+              <p className="mt-12 max-w-reading border-t border-rule pt-6 text-[.95rem] text-muted">
+                {fm.sourceUrl.includes('/pulse/') ? 'Originally published as a ' : 'Originally posted on '}
+                <a
+                  href={fm.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 font-medium text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent"
+                >
+                  {fm.sourceUrl.includes('/pulse/') ? 'LinkedIn article' : 'LinkedIn'} <ExternalIcon />
+                </a>
+              </p>
+            )}
+
             <div className="mt-14 max-w-reading border-t border-rule pt-6">
+              {fm.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {fm.tags.map((t) => <Tag key={t} name={t} kind={doc.kind} />)}
               </div>
-              <div className="mt-6"><ShareRow title={fm.title} url={url} /></div>
+              )}
+              <div className={fm.tags.length > 0 ? 'mt-6' : ''}><ShareRow title={fm.title} url={url} /></div>
             </div>
 
             {(previous || next) && (

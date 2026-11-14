@@ -23,4 +23,7 @@ export const nav = [
   { href: '/now', label: 'Now' },
 ] as const;
 
+/** /writing filter order, as the archive maps the posts. */
+export const writingCategories = ['Build Notes', 'AI Engineering', 'Founder Notes'] as const;
+
 export const navCta = { href: '/work', label: 'Work with me' } as const;
