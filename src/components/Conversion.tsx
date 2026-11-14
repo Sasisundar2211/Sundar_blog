@@ -3,8 +3,14 @@ import { ArrowList } from './Cards';
 import { ForwardIcon } from './Icons';
 import { LeadForm } from './LeadForm';
 
-/** The guide is not written yet; every promise of it names this date. */
+/** CommandBuild's WhatsApp group and the per-post toolkits both start on this date. */
 export const guideDate = 'December 1, 2026';
+
+/** The free 5-page guide, served from /public and handed over right after signup. */
+export const guidePdf = {
+  href: '/guides/claude-code-cli-free-setup.pdf',
+  label: 'Download the 5-page PDF',
+};
 
 /** Leak 4: a zero-risk next step for visitors not ready to commission a build. */
 export function AuditStrip() {
@@ -29,7 +35,7 @@ export function GuideBanner() {
   return (
     <div className="rounded-2xl bg-raised px-6 py-10 sm:px-10">
       <h2 className="text-2xl font-semibold tracking-[-0.02em]">
-        Steal my exact Claude Code CLI setup (5-page Micro-SOP)
+        Run Claude Code for ₹0: my free 5-page setup guide
       </h2>
       <div className="mt-4 max-w-reading space-y-1 text-[15px] leading-relaxed text-muted">
         <p>I cannot write a standalone Python backend from scratch without AI yet.</p>
@@ -38,26 +44,27 @@ export function GuideBanner() {
           verification loop lets me ship full-stack client portals solo.
         </p>
       </div>
-      <p className="mt-5 text-[15px] font-medium text-ink">Get the exact setup guide I use daily:</p>
+      <p className="mt-5 text-[15px] font-medium text-ink">What the guide covers:</p>
       <ArrowList
         className="mt-3 max-w-reading text-[15px] text-muted"
         items={[
-          <>My <code className="font-mono text-[.9em] text-ink">CLAUDE.md</code> repository rules template</>,
-          'The 7 terminal commands I run before every commit',
-          'My 4-node n8n + API lead enrichment blueprint',
+          'Connecting Claude Code to free AI models through OmniRoute, step by step',
+          <>A <code className="font-mono text-[.9em] text-ink">CLAUDE.md</code> guardrails template that keeps free models on track</>,
+          'The 6 daily commands, plus a 3-point proof gate before you ship',
         ]}
       />
       <div className="mt-6 max-w-xl">
         <LeadForm
           variant="optin"
           intent="guide"
-          submitLabel="Send me the 5-page PDF"
-          successMessage={`You're on the list. I'll send the PDF by ${guideDate}, with the CommandBuild WhatsApp invite.`}
+          submitLabel="Get the 5-page PDF"
+          successMessage={`Here's your guide. The CommandBuild WhatsApp invite follows on ${guideDate}.`}
+          download={guidePdf}
         />
       </div>
       <p className="mt-4 text-sm text-faint">
-        The guide is still being written: I&rsquo;ll send it by {guideDate}. Includes an invite to the free
-        CommandBuild AI &amp; CLI WhatsApp group (launching {guideDate}).
+        Instant download. Includes an invite to the free CommandBuild AI &amp; CLI WhatsApp group (launching{' '}
+        {guideDate}).
       </p>
     </div>
   );
@@ -117,14 +124,16 @@ export function FooterOptin() {
     <div>
       <p className="font-display text-[1.05rem] font-semibold text-ink">Join the CommandBuild CLI &amp; AI community</p>
       <p className="mt-2 text-sm leading-relaxed text-muted">
-        Get my free 5-page Claude Code CLI setup guide and the WhatsApp group invite. Both arrive by {guideDate}.
+        Get my free 5-page Claude Code CLI setup guide now, and the WhatsApp group invite when it launches on{' '}
+        {guideDate}.
       </p>
       <div className="mt-4">
         <LeadForm
           variant="optin"
           intent="guide"
           submitLabel="Get the free guide"
-          successMessage={`You're in. The guide and WhatsApp invite arrive by ${guideDate}.`}
+          successMessage={`You're in. The WhatsApp invite follows on ${guideDate}.`}
+          download={guidePdf}
         />
       </div>
     </div>

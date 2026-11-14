@@ -23,11 +23,14 @@ export function LeadForm({
   intent: fixedIntent = 'guide',
   submitLabel,
   successMessage,
+  download,
 }: {
   variant: 'optin' | 'intake';
   intent?: Intent;
   submitLabel: string;
   successMessage: string;
+  /** Delivered on the spot after a valid signup, even if the lead email fails. */
+  download?: { href: string; label: string };
 }) {
   const id = useId();
   const [intent, setIntent] = useState<Intent>(variant === 'intake' ? 'build' : fixedIntent);
@@ -51,7 +54,7 @@ export function LeadForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, intent, page: window.location.pathname }),
       });
-      if (res.ok) return setStatus('sent');
+      if (res.ok || (download && res.status >= 500)) return setStatus('sent');
       const body = await res.json().catch(() => ({}));
       setError(res.status === 400 && body.error ? body.error : '');
       setStatus('error');
@@ -62,9 +65,18 @@ export function LeadForm({
 
   if (status === 'sent') {
     return (
-      <p role="status" className="rounded-lg bg-accent/10 px-4 py-3 text-[15px] font-medium text-ink">
-        {successMessage}
-      </p>
+      <div role="status" className="rounded-lg bg-accent/10 px-4 py-3 text-[15px] text-ink">
+        <p className="font-medium">{successMessage}</p>
+        {download && (
+          <a
+            href={download.href}
+            download
+            className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-ink px-4 py-2 text-sm font-medium text-paper transition hover:opacity-90"
+          >
+            {download.label} <ForwardIcon />
+          </a>
+        )}
+      </div>
     );
   }
 
