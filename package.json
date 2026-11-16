@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --experimental-strip-types --test src/lib/copy.test.ts src/lib/format.test.ts src/lib/lead.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/copy.test.ts src/lib/format.test.ts src/lib/lead.test.ts src/lib/lead-email.test.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

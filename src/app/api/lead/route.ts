@@ -1,11 +1,38 @@
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { intents, parseLead } from '@/lib/lead';
+import { guideEmailHtml, ownerEmailHtml } from '@/lib/lead-email';
 import { site } from '@/lib/site';
 
 /**
- * Emails each lead to the site owner through Resend. Nothing is stored.
- * Needs RESEND_API_KEY on Vercel. LEAD_TO overrides the destination address.
- * Without a key the route answers 503 so the form can offer a direct email link.
+ * Emails each lead through Resend. Nothing is stored.
+ * - Owner notification goes to LEAD_TO or site.email.
+ * - Guide signups with an email also get the PDF attached and the CommandBuild invite.
+ * Env: RESEND_API_KEY (required), RESEND_FROM_EMAIL (sender on a domain verified in Resend),
+ * COMMANDBUILD_WHATSAPP_URL (invite link). Without a key the route answers 503.
  */
+const PDF_PATH = 'public/guides/claude-code-cli-guide.pdf';
+const PDF_URL = `${site.url}/guides/claude-code-cli-guide.pdf`;
+
+async function send(key: string, payload: Record<string, unknown>): Promise<boolean> {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  }).catch(() => null);
+  if (!res?.ok) console.error('resend send failed', res?.status, await res?.text().catch(() => ''));
+  return Boolean(res?.ok);
+}
+
+async function pdfBase64(): Promise<string | null> {
+  try {
+    return (await readFile(path.join(process.cwd(), PDF_PATH))).toString('base64');
+  } catch (err) {
+    console.error('guide pdf missing at runtime', err);
+    return null;
+  }
+}
+
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -22,25 +49,37 @@ export async function POST(req: Request) {
   if (!key) return Response.json({ error: 'not_configured' }, { status: 503 });
 
   const { lead } = parsed;
-  const text = [
-    `Intent: ${intents[lead.intent]}`,
-    `Name: ${lead.name || '(not given)'}`,
-    `${lead.contactKind === 'email' ? 'Email' : 'WhatsApp'}: ${lead.contact}`,
-    `Page: ${lead.page || '(unknown)'}`,
-  ].join('\n');
+  const from = process.env.RESEND_FROM_EMAIL || 'Sasi Sundar <hello@sasisundar.me>';
+  const isEmail = lead.contactKind === 'email';
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: 'Site leads <onboarding@resend.dev>',
-      to: [process.env.LEAD_TO || site.email],
-      subject: `New lead: ${intents[lead.intent]}`,
-      text,
-      ...(lead.contactKind === 'email' ? { reply_to: lead.contact } : {}),
-    }),
-  }).catch(() => null);
+  const owner = send(key, {
+    from,
+    to: [process.env.LEAD_TO || site.email],
+    subject: `New lead: ${intents[lead.intent]}`,
+    html: ownerEmailHtml(lead, intents[lead.intent]),
+    ...(isEmail ? { reply_to: lead.contact } : {}),
+  });
 
-  if (!res?.ok) return Response.json({ error: 'send_failed' }, { status: 502 });
+  const visitor =
+    lead.intent === 'guide' && isEmail
+      ? pdfBase64().then((pdf) =>
+          send(key, {
+            from,
+            to: [lead.contact],
+            subject: 'Your Claude Code CLI guide',
+            html: guideEmailHtml(
+              lead,
+              process.env.COMMANDBUILD_WHATSAPP_URL || `mailto:${site.email}?subject=CommandBuild%20invite`,
+              PDF_URL,
+            ),
+            reply_to: site.email,
+            ...(pdf ? { attachments: [{ filename: 'Claude-Code-CLI-Guide-Sasi-Sundar.pdf', content: pdf }] } : {}),
+          }),
+        )
+      : Promise.resolve(true);
+
+  const [ownerOk] = await Promise.all([owner, visitor]);
+  // The form hands the PDF over on screen, so only a lost owner notification is an error.
+  if (!ownerOk) return Response.json({ error: 'send_failed' }, { status: 502 });
   return Response.json({ ok: true });
 }

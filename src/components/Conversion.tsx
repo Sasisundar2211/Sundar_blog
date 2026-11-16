@@ -8,7 +8,7 @@ export const guideDate = 'December 1, 2026';
 
 /** The free 5-page guide, served from /public and handed over right after signup. */
 export const guidePdf = {
-  href: '/guides/claude-code-cli-free-setup.pdf',
+  href: '/guides/claude-code-cli-guide.pdf',
   label: 'Download the 5-page PDF',
 };
 
